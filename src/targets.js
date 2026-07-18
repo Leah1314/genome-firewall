@@ -30,7 +30,7 @@ const FASTA_TARGET_SIGNATURES = {
     label: "ftsI / PBP3",
     kind: "protein",
     minMatches: 2,
-    motifs: [/S[ST]VK/i, /KTGTA/i, /S[GN]N/i, /PBP/i],
+    motifs: [/S[ST]VK/i, /KTGTA/i, /S[GN]N/i],
   },
   rpsL: {
     label: "rpsL",
