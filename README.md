@@ -16,6 +16,16 @@ Public GitHub Pages preview: `https://leah1314.github.io/genome-firewall/`. On P
 
 No npm installation is required. The server uses Node.js built-ins and serves a local API and web interface.
 
+### Gradio demo (challenge Module 03 requirement)
+
+The primary UI above is a custom Node/HTML app, richer than a file-in/text-out demo needs to be. The brief's Module 03 asks specifically for "a working Streamlit or Gradio demo," so `gradio_app.py` provides one: a thin client of the same backend, with no prediction logic of its own.
+
+```bash
+npm start                              # backend, in one terminal
+pip install -r requirements-gradio.txt
+python gradio_app.py                   # in another terminal, http://127.0.0.1:7860
+```
+
 ## What works now
 
 - FASTA parsing and deterministic assembly QC.
