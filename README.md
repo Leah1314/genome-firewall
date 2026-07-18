@@ -12,6 +12,8 @@ npm start
 
 Open `http://127.0.0.1:4180`. Choose **Load example case** for the fastest end-to-end demo.
 
+Public GitHub Pages preview: `https://leah1314.github.io/genome-firewall/`. On Pages, FASTA and AMRFinderPlus TSV analysis runs locally in the browser; the optional OpenAI Report Agent requires the Node backend.
+
 No npm installation is required. The server uses Node.js built-ins and serves a local API and web interface.
 
 ## What works now

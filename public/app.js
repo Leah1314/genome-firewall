@@ -11,6 +11,7 @@ const reportAgentButton = document.querySelector("#report-agent-button");
 const reportAgentStatus = document.querySelector("#report-agent-status");
 const reportAgentOutput = document.querySelector("#report-agent-output");
 let currentAnalysis = null;
+const isStaticHost = window.location.hostname.endsWith("github.io");
 
 function formatNumber(value) {
   return new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 }).format(value);
@@ -81,15 +82,20 @@ function render(result) {
   results.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-async function requestAnalysis(endpoint, options) {
+async function requestAnalysis(endpoint, options, staticFallback) {
   errorElement.textContent = "";
   analyzeButton.disabled = true;
   demoButton.disabled = true;
   analyzeButton.textContent = "Analyzing…";
   try {
-    const response = await fetch(endpoint, options);
-    const payload = await response.json();
-    if (!response.ok) throw new Error(payload.error || "Analysis failed.");
+    let payload;
+    if (isStaticHost) {
+      payload = staticFallback();
+    } else {
+      const response = await fetch(endpoint, options);
+      payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || "Analysis failed.");
+    }
     render(payload);
   } catch (error) {
     errorElement.textContent = error.message;
@@ -126,10 +132,14 @@ form.addEventListener("submit", async (event) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ fastaText, amrTsv, species: "Escherichia coli" }),
-  });
+  }, () => window.GenomeFirewallEngine.analyze({ fastaText, amrTsv }));
 });
 
-demoButton.addEventListener("click", () => requestAnalysis("/api/demo"));
+demoButton.addEventListener("click", () => requestAnalysis(
+  "/api/demo",
+  undefined,
+  () => window.GenomeFirewallEngine.demo(),
+));
 
 reportAgentButton.addEventListener("click", async () => {
   if (!currentAnalysis) return;
@@ -153,11 +163,16 @@ reportAgentButton.addEventListener("click", async () => {
   }
 });
 
-fetch("/api/health")
-  .then((response) => response.json())
+const healthRequest = isStaticHost
+  ? Promise.resolve({ reportAgentConfigured: false, staticHost: true })
+  : fetch("/api/health").then((response) => response.json());
+
+healthRequest
   .then((health) => {
     reportAgentButton.disabled = !health.reportAgentConfigured;
-    reportAgentStatus.textContent = health.reportAgentConfigured
+    reportAgentStatus.textContent = health.staticHost
+      ? "GitHub Pages preview: analysis runs locally; the optional OpenAI brief requires the backend."
+      : health.reportAgentConfigured
       ? "OpenAI Report Agent is ready. It receives audited JSON, never raw sequence."
       : "Optional: set OPENAI_API_KEY to enable the bounded reviewer brief.";
   })

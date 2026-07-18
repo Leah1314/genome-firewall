@@ -5,7 +5,7 @@
   "description": "Defensive antibiotic failure early-warning prototype for the Hack-Nation Genome Firewall challenge.",
   "scripts": {
     "start": "node server.js",
-    "check": "node --check server.js && node --check scripts/train-baseline.js && node --test"
+    "check": "node --check server.js && node --check scripts/train-baseline.js && node --check public/app.js && node --check public/static-engine.js && node --test"
   },
   "engines": {
     "node": ">=20"
