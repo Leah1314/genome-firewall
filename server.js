@@ -3,6 +3,8 @@ const { readFile } = require("node:fs/promises");
 const path = require("node:path");
 const { analyzeGenome } = require("./src/pipeline");
 const { generateReportBrief, reportAgentConfigured } = require("./src/openai-report");
+const { generateEvidenceDiagram, imageAgentConfigured } = require("./src/openai-image");
+const { ANTIBIOTICS, SUPPORTED_SPECIES } = require("./src/config");
 
 const PORT = Number(process.env.PORT || 4180);
 const PUBLIC_DIR = path.join(__dirname, "public");
@@ -63,6 +65,34 @@ async function demoAnalysis() {
   return analyzeGenome({ fastaText, amrTsv, gffText, species: "Escherichia coli", forceImported: true });
 }
 
+async function loadModelInfo(antibioticId) {
+  try {
+    const raw = await readFile(path.join(__dirname, "models", `${antibioticId}.json`), "utf8");
+    const artifact = JSON.parse(raw);
+    return {
+      antibioticId,
+      trained: true,
+      trainedAt: artifact.trainedAt,
+      groupedSplit: artifact.groupedSplit,
+      thresholds: artifact.thresholds,
+      validation: artifact.validation,
+    };
+  } catch {
+    return { antibioticId, trained: false };
+  }
+}
+
+async function modelInfoResponse() {
+  return {
+    coverage: {
+      species: Object.values(SUPPORTED_SPECIES).map((profile) => profile.label),
+      antibiotics: ANTIBIOTICS.map((a) => ({ id: a.id, label: a.label, target: a.target })),
+      statement: "This prototype covers exactly the species and antibiotics listed here. Every other organism and drug is out of scope and must return no-call or be rejected upstream.",
+    },
+    models: await Promise.all(ANTIBIOTICS.map((a) => loadModelInfo(a.id))),
+  };
+}
+
 async function serveStatic(request, response) {
   const requestPath = new URL(request.url, `http://${request.headers.host}`).pathname;
   const relative = requestPath === "/" ? "index.html" : requestPath.replace(/^\/+/, "");
@@ -87,10 +117,14 @@ const server = http.createServer(async (request, response) => {
         status: "ok",
         service: "genome-firewall",
         reportAgentConfigured: reportAgentConfigured(),
+        imageAgentConfigured: imageAgentConfigured(),
       });
     }
     if (request.method === "GET" && request.url === "/api/demo") {
       return json(response, 200, await demoAnalysis());
+    }
+    if (request.method === "GET" && request.url === "/api/model-info") {
+      return json(response, 200, await modelInfoResponse());
     }
     if (request.method === "POST" && request.url === "/api/analyze") {
       const body = await readJsonBody(request);
@@ -109,6 +143,15 @@ const server = http.createServer(async (request, response) => {
         return json(response, 400, { error: "Only a completed, audited analysis can be summarized." });
       }
       return json(response, 200, await generateReportBrief(body.analysis));
+    }
+    if (request.method === "POST" && request.url === "/api/evidence-image") {
+      const body = await readJsonBody(request);
+      if (!body.analysis?.audit?.passed || !Array.isArray(body.analysis?.predictions)) {
+        return json(response, 400, { error: "Only a completed, audited analysis can be visualized." });
+      }
+      const prediction = body.analysis.predictions.find((item) => item.antibioticId === body.antibioticId);
+      if (!prediction) return json(response, 400, { error: "That antibiotic is not in this analysis." });
+      return json(response, 200, await generateEvidenceDiagram(prediction));
     }
     if (request.method === "GET") return serveStatic(request, response);
     json(response, 405, { error: "Method not allowed" });

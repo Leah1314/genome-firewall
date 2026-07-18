@@ -3,4 +3,11 @@ node_modules/
 tmp/
 uploads/
 *.log
+__pycache__/
+*.pyc
+
+# Bulk genome FASTA and raw AMRFinderPlus TSVs are regenerable via
+# data/scripts/*.py (see data/README.md) and too large to version.
+# The manifest, groups, features table, and trained models ARE committed.
+data/raw/
 

@@ -5,17 +5,29 @@ function sigmoid(value) {
   return 1 / (1 + Math.exp(-value));
 }
 
-function artifactProbability(artifact, features) {
-  const values = {
-    marker_count: features.markerCount,
-    mutation_count: features.mutationCount,
-    target_confirmed: features.targetConfirmed,
-  };
-  const score = artifact.model.intercept + artifact.featureNames.reduce(
-    (sum, name) => sum + (Number(values[name]) || 0) * artifact.model.weights[name],
-    0,
-  );
-  return sigmoid(artifact.calibration.intercept + artifact.calibration.slope * score);
+// Trained per-antibiotic model artifacts (see scripts/train-baseline.js and
+// data/README.md) override the placeholder heuristic weights in config.js
+// when present. Loaded once at startup; a missing artifact is expected and
+// silently falls back so the app keeps working before training has run.
+function loadTrainedModel(antibioticId) {
+  try {
+    // eslint-disable-next-line global-require, import/no-dynamic-require
+    return require(`../models/${antibioticId}.json`);
+  } catch (error) {
+    return null;
+  }
+}
+
+const TRAINED_MODELS = Object.fromEntries(ANTIBIOTICS.map((a) => [a.id, loadTrainedModel(a.id)]));
+
+function matchesMarker(hit, patterns) {
+  const haystack = `${hit.gene || ""} ${hit.name || ""} ${hit.subtype || ""}`;
+  return patterns.some((pattern) => pattern.test(haystack));
+}
+
+function classifyEvidence(hit) {
+  const text = `${hit.name || ""} ${hit.subtype || ""} ${hit.method || ""}`;
+  return /point|mutation|variant|SNP/i.test(text) ? "known_mutation" : "known_gene";
 }
 
 function targetGate({ species, genomeSummary, targetEvidence }, antibioticId) {
@@ -36,32 +48,67 @@ function targetGate({ species, genomeSummary, targetEvidence }, antibioticId) {
   };
 }
 
-function predictAntibiotic(antibiotic, context) {
-  const gate = targetGate(context, antibiotic.id);
-  const features = extractAntibioticFeatures(antibiotic, context.hits, gate);
-  const evidence = features.evidence;
-  const geneCount = features.markerCount;
-  const mutationCount = features.mutationCount;
+function scoreEvidence(antibiotic, geneCount, mutationCount) {
+  const trained = TRAINED_MODELS[antibiotic.id];
+  if (trained) {
+    const weights = trained.model.weights;
+    const rawScore = trained.model.intercept
+      + (weights.marker_count || 0) * geneCount
+      + (weights.mutation_count || 0) * mutationCount;
+    return {
+      probabilityOfFailure: Number(sigmoid(rawScore).toFixed(3)),
+      highThreshold: trained.thresholds.highThreshold,
+      lowThreshold: trained.thresholds.lowThreshold,
+      modelSource: `trained_baseline:${trained.trainedAt}`,
+    };
+  }
   const rawScore = antibiotic.intercept
     + antibiotic.markerWeight * Math.min(geneCount, 2)
     + antibiotic.mutationWeight * Math.min(mutationCount, 2);
-  const artifact = context.models?.[antibiotic.id];
-  const probabilityOfFailure = Number((artifact
-    ? artifactProbability(artifact, features)
-    : sigmoid(rawScore)).toFixed(3));
-  const thresholds = artifact?.thresholds || { susceptible: 0.33, resistant: 0.67 };
+  return {
+    probabilityOfFailure: Number(sigmoid(rawScore).toFixed(3)),
+    highThreshold: 0.67,
+    lowThreshold: 0.33,
+    modelSource: "heuristic_placeholder",
+  };
+}
+
+// The brief requires every result to state which of three evidence types
+// backs it: (i) a known resistance gene/DNA change was detected, (ii) the
+// model found only a statistical association, or (iii) no known resistance
+// signal was found. This predictor's decision gate (below) never allows a
+// likely_to_fail call without at least one curated AMRFinderPlus hit, so
+// "statistical_association_only" is structurally unreachable today -- kept
+// here, rather than removed, so an honest label exists if a future model
+// (e.g. a k-mer or embedding classifier) adds evidence that isn't a named
+// gene/mutation.
+function evidenceCategory(evidenceList, decision) {
+  if (evidenceList.length) return "known_gene_or_mutation";
+  if (decision === "likely_to_fail") return "statistical_association_only";
+  return "no_known_signal";
+}
+
+function predictAntibiotic(antibiotic, context) {
+  const gate = targetGate(context);
+  const evidence = context.hits
+    .filter((hit) => matchesMarker(hit, antibiotic.markers))
+    .map((hit) => ({ ...hit, category: classifyEvidence(hit) }));
+  const geneCount = evidence.filter((hit) => hit.category === "known_gene").length;
+  const mutationCount = evidence.filter((hit) => hit.category === "known_mutation").length;
+  const { probabilityOfFailure, highThreshold, lowThreshold, modelSource } = scoreEvidence(antibiotic, geneCount, mutationCount);
+
+  const scanDescription = context.readerMode === "amrfinder" ? "a completed AMRFinderPlus scan" : "the imported AMRFinderPlus result";
 
   let decision = "no_call";
   let reason = gate.rationale;
-  if (context.genomeSummary.qc !== "fail" && evidence.length && probabilityOfFailure >= thresholds.resistant) {
+  if (gate.pass && evidence.length && probabilityOfFailure >= highThreshold) {
     decision = "likely_to_fail";
     reason = "Known AMR evidence raises the estimated probability of antibiotic failure.";
-  } else if (gate.pass && context.readerMode === "amrfinder" && probabilityOfFailure <= thresholds.susceptible) {
+  } else if (gate.pass && (context.readerMode === "amrfinder" || context.readerMode === "imported_amrfinder") && probabilityOfFailure <= lowThreshold) {
     decision = "likely_to_work";
-    reason = "No relevant marker was detected in a completed AMRFinderPlus scan and the target gate passed.";
-  } else if (gate.pass && context.readerMode === "imported_amrfinder" && probabilityOfFailure <= thresholds.susceptible) {
-    decision = "likely_to_work";
-    reason = "No relevant marker was detected in the imported AMRFinderPlus result and the target gate passed.";
+    reason = evidence.length
+      ? `A marker was detected in ${scanDescription}, but the calibrated model estimates a low probability of failure from this evidence alone and the target gate passed.`
+      : `No relevant marker was detected in ${scanDescription} and the target gate passed.`;
   } else if (gate.pass && !evidence.length) {
     reason = "No relevant marker is visible, but a complete AMRFinderPlus result is required before a susceptible call.";
   }
@@ -80,7 +127,9 @@ function predictAntibiotic(antibiotic, context) {
     modelVersion: artifact ? `schema-${artifact.schemaVersion}` : "integration-baseline-v1",
     decisionThresholds: thresholds,
     evidence,
+    evidenceCategory: evidenceCategory(evidence, decision),
     explanation: reason,
+    modelSource,
   };
 }
 
@@ -88,4 +137,4 @@ function runPredictions(context) {
   return ANTIBIOTICS.map((antibiotic) => predictAntibiotic(antibiotic, context));
 }
 
-module.exports = { runPredictions, targetGate };
+module.exports = { runPredictions, targetGate, matchesMarker, classifyEvidence };

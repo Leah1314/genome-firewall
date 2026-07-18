@@ -23,11 +23,12 @@ No npm installation is required. The server uses Node.js built-ins and serves a 
 - Automatic AMRFinderPlus execution when the `amrfinder` command is installed.
 - Import of a standard AMRFinderPlus TSV when the scanner is not installed on the app host.
 - Separate risk logic for ciprofloxacin, ceftriaxone, and gentamicin.
-- Explicit drug-target detection from GFF3, confidence, no-call, evidence provenance, and policy audit.
-- A zero-dependency grouped train/validation/test logistic-regression trainer with Platt calibration, validation-selected abstention thresholds, held-out metrics, and model-card export.
-- Automatic schema-v2 model-artifact loading in the Node API, with the model source exposed in every drug-level result.
+- Target-context gate, confidence, no-call, evidence provenance, and policy audit.
+- A real BV-BRC + AMRFinderPlus + Mash data pipeline (see [data/README.md](./data/README.md)) that pins a reproducible *E. coli* cohort from laboratory-measured AST results, groups it by genetic relatedness, and feeds a grouped-split, calibrated logistic-regression trainer.
+- `src/predictor.js` automatically loads a trained `models/<antibiotic>.json` artifact when one exists and reports `modelSource` (`trained_baseline:*` vs `heuristic_placeholder`) on every prediction, so the report never silently presents a placeholder as a measured result.
 - Responsive decision-report interface and a bundled non-biological example case.
 - Optional OpenAI Responses API Report Agent that receives audited JSON only and cannot alter classifier decisions.
+- Optional OpenAI image-generation Evidence Diagram Agent (`src/openai-image.js`, `POST /api/evidence-image`): renders one audited prediction as a schematic evidence -> target -> decision infographic. Template-built prompt, audited fields only, explicitly forbids photorealistic or organism-modification imagery. Set `OPENAI_API_KEY` (and optionally `OPENAI_IMAGE_MODEL`, default `gpt-image-2`) to enable.
 
 ## Verify it
 
@@ -56,28 +57,30 @@ The manifest contract and required provenance are documented in [data/README.md]
 
 ## Train and evaluate a baseline
 
-Prepare one CSV with these required columns:
+`data/README.md` documents the full, repeatable path from BV-BRC + AMRFinderPlus + Mash to `data/features.csv` in the required schema:
 
 ```text
 sample_id,group_id,antibiotic,label,marker_count,mutation_count
 ```
 
-`group_id` must be a genetic cluster or sequence-homology group, not a random row ID. Then run:
+`group_id` is a Mash sequence-homology cluster, not a random row ID (see `data/scripts/build_groups.py`). To (re)train after regenerating `data/features.csv`:
 
 ```bash
 node scripts/train-baseline.js data/features.csv ciprofloxacin
+node scripts/train-baseline.js data/features.csv ceftriaxone
+node scripts/train-baseline.js data/features.csv gentamicin
 ```
 
-The script writes a JSON model artifact and Markdown model card under `models/`. Related genomes stay in one split. The model is fitted on training groups, Platt calibration and no-call thresholds are fitted on validation groups, and final metrics are reported once on test groups. Metrics include class recalls, balanced accuracy, resistant precision/F1, AUROC, PR-AUC, Brier score, reliability bins, no-call rate, and accuracy among called predictions.
+The script performs a 3-way grouped split (train / calibration / held-out test, no `group_id` in more than one split), fits calibrated no-call thresholds on the calibration split, and reports on the held-out test split only: balanced accuracy, resistant/susceptible recall, F1, AUROC, PR-AUC, Brier score, a 5-bin reliability table, no-call rate, and accuracy among called predictions. `src/predictor.js` picks up the resulting `models/<antibiotic>.json` automatically, and the same numbers are shown live in the demo's "Model performance on held-out data" panel via `GET /api/model-info`.
 
-The Node API automatically serves a matching schema-v2 artifact from `models/`. GitHub Pages remains a browser-only preview and visibly uses the bundled integration baseline because it cannot execute the native AMRFinderPlus or load server-side trained artifacts.
+Current realized results (102-genome cohort, see "Realized results" in [data/README.md](./data/README.md) for the full table and — importantly — why these small-test-set numbers should be read skeptically rather than as a headline): balanced accuracy 0.955-1.00, AUROC 0.955-1.00 across the three antibiotics, on held-out test folds of only 17-24 genomes each.
 
 ## Honest current limits
 
-- The included coefficients are an executable baseline for integration testing; they are not claimed to be clinically validated or calibrated on the hidden challenge set.
-- A complete analysis requires a matching GFF3 annotation to confirm drug targets. Without it, likely-to-work calls are disabled.
-- A complete FASTA scan requires AMRFinderPlus on the host. On GitHub Pages, upload the matching TSV because browsers cannot execute the native scanner.
-- GFF target presence establishes context only; it does not prove target function or phenotypic susceptibility.
+- The real-data cohort behind the current `models/*.json` is a 102-genome, ~25-per-class-bucket BV-BRC sample (see "Known limits of this cohort" in [data/README.md](./data/README.md)) -- enough to exercise the full pipeline honestly, not enough to claim confident real-world performance. No coefficients are presented as clinically validated.
+- No organizer-pinned hidden test set was provided to this team; reported metrics are this pipeline's own held-out grouped split, not an external hidden evaluation.
+- The current target gate uses supported-species identity plus assembly QC as a transparent proxy. A production submission should add explicit target-locus detection from an annotation pipeline.
+- A complete FASTA-only scan requires AMRFinderPlus on the host. Without it, upload the matching TSV; otherwise susceptible calls are disabled.
 - The project deliberately does not generate organism modifications, optimize pathogens, prescribe antibiotics, or make autonomous treatment decisions.
 
 See [AGENTS.md](./AGENTS.md) for the product agents and [HACKATHON_RUNBOOK.md](./HACKATHON_RUNBOOK.md) for the team execution order.

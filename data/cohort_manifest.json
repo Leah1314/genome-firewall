@@ -1,0 +1,3928 @@
+{
+  "schemaVersion": 1,
+  "source": "BV-BRC (bv-brc.org) genome_amr + genome collections via public REST API",
+  "sourceUrl": "https://www.bv-brc.org/api/",
+  "license": "BV-BRC public data; U.S. federally funded resource, freely available. See https://www.bv-brc.org/docs/policies_privacy/",
+  "amrfinderplus": "Cross-referenced separately at feature-generation time; see data/README.md for pinned version.",
+  "taxonId": 562,
+  "species": "Escherichia coli",
+  "antibiotics": [
+    "ciprofloxacin",
+    "ceftriaxone",
+    "gentamicin"
+  ],
+  "evidenceFilter": "Laboratory Method (excludes BV-BRC Computational Method / model-generated MIC predictions)",
+  "phenotypesKept": [
+    "Resistant",
+    "Susceptible"
+  ],
+  "qualityGate": {
+    "genome_quality": "Good",
+    "min_checkm_completeness": 95.0,
+    "max_checkm_contamination": 5.0,
+    "genome_length_range": [
+      4000000,
+      6200000
+    ]
+  },
+  "targetPerClass": 25,
+  "selectionByBucket": {
+    "ciprofloxacin:Resistant": [
+      "562.96677",
+      "562.140854",
+      "562.31451",
+      "562.57279",
+      "562.96666",
+      "562.28845",
+      "562.99156",
+      "562.57368",
+      "562.140841",
+      "562.96965",
+      "562.99400",
+      "562.98212",
+      "562.96971",
+      "562.97222",
+      "562.22442",
+      "562.96995",
+      "562.45617",
+      "562.17359",
+      "562.99320",
+      "562.22647",
+      "562.45396",
+      "562.96784",
+      "562.42658",
+      "562.97072",
+      "562.42859"
+    ],
+    "ciprofloxacin:Susceptible": [
+      "562.23346",
+      "562.98181",
+      "562.96717",
+      "562.22934",
+      "562.58784",
+      "562.98800",
+      "562.98316",
+      "562.23390",
+      "562.100916",
+      "562.145077",
+      "562.98523",
+      "562.99080",
+      "562.145407",
+      "562.98113",
+      "562.98919",
+      "562.96919",
+      "562.98490",
+      "562.145399",
+      "562.57377",
+      "562.99437",
+      "562.96610",
+      "562.97986",
+      "562.22745",
+      "562.98175",
+      "562.144953"
+    ],
+    "ceftriaxone:Resistant": [
+      "562.140854",
+      "562.31451",
+      "562.145407",
+      "562.145399",
+      "562.28845",
+      "562.33280",
+      "562.42658",
+      "562.42859",
+      "562.45848",
+      "562.42743",
+      "562.19632",
+      "562.42645",
+      "562.37112",
+      "562.42718",
+      "562.42852",
+      "562.17621",
+      "562.58628",
+      "562.145395",
+      "562.19083",
+      "562.42724",
+      "562.48348",
+      "562.42739",
+      "562.42683",
+      "562.42826",
+      "562.145419"
+    ],
+    "ceftriaxone:Susceptible": [
+      "562.58784",
+      "562.145077",
+      "562.144953",
+      "562.140841",
+      "562.45617",
+      "562.145074",
+      "562.145079",
+      "562.7682",
+      "562.145010",
+      "562.7672",
+      "562.144971",
+      "562.144978",
+      "562.140842",
+      "562.7702",
+      "562.28565",
+      "562.42836",
+      "562.145029",
+      "562.45604",
+      "562.144977",
+      "562.144951",
+      "562.45636",
+      "562.145034",
+      "562.145057",
+      "562.58783",
+      "562.144964"
+    ],
+    "gentamicin:Resistant": [
+      "562.31451",
+      "562.145407",
+      "562.57377",
+      "562.28845",
+      "562.57368",
+      "562.140841",
+      "562.96965",
+      "562.100836",
+      "562.96971",
+      "562.96995",
+      "562.144163",
+      "562.45396",
+      "562.97072",
+      "562.57453",
+      "562.57428",
+      "562.19632",
+      "562.57364",
+      "562.98437",
+      "562.57404",
+      "562.100704",
+      "562.96455",
+      "562.97074",
+      "562.98348",
+      "562.96463",
+      "562.23760"
+    ],
+    "gentamicin:Susceptible": [
+      "562.96677",
+      "562.23346",
+      "562.98181",
+      "562.96717",
+      "562.22934",
+      "562.58784",
+      "562.140854",
+      "562.98800",
+      "562.98316",
+      "562.23390",
+      "562.100916",
+      "562.145077",
+      "562.98523",
+      "562.99080",
+      "562.57279",
+      "562.100843",
+      "562.98113",
+      "562.98919",
+      "562.96919",
+      "562.96666",
+      "562.98490",
+      "562.145399",
+      "562.99437",
+      "562.96610",
+      "562.97986"
+    ]
+  },
+  "genomeCount": 102,
+  "genomes": {
+    "562.100704": {
+      "genome_id": "562.100704",
+      "genome_name": "Escherichia coli 90e6d6a6-7bb8-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5068742,
+      "contigs": 96,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.100704.fna",
+      "fastaSha256": "b180ce46e13fd6455cbc1b23eb307cdfabe360067afe620a8d898fbff9cce5f6",
+      "fastaBytes": 5145223
+    },
+    "562.100836": {
+      "genome_id": "562.100836",
+      "genome_name": "Escherichia coli feceb404-7bb8-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5139834,
+      "contigs": 157,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.100836.fna",
+      "fastaSha256": "519f52f1780c418642b77af5bb4ffe9906e1433cd8c96c14bb1ff9080e03939d",
+      "fastaBytes": 5219984
+    },
+    "562.100843": {
+      "genome_id": "562.100843",
+      "genome_name": "Escherichia coli b7e45728-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5025641,
+      "contigs": 111,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.100843.fna",
+      "fastaSha256": "edd5db4bbca1b3a5e6e7dacb6b3d38391b324ee82c58de74c934a60c938fb4b7",
+      "fastaBytes": 5102151
+    },
+    "562.100916": {
+      "genome_id": "562.100916",
+      "genome_name": "Escherichia coli 2d48fdf8-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4634064,
+      "contigs": 68,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.100916.fna",
+      "fastaSha256": "dff5530a5e68c801a9bbe83dd2400e4aba655f4f9233367dee734bd92ab920b6",
+      "fastaBytes": 4703144
+    },
+    "562.140841": {
+      "genome_id": "562.140841",
+      "genome_name": "Escherichia coli 018-E2-S06",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4915540,
+      "contigs": 158,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.1,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            31455657
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            31455657
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            31455657
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.140841.fna",
+      "fastaSha256": "668ebefe3f3cc4108c2be2bd83879e1a130773037786c96a242cdfd748bbbd06",
+      "fastaBytes": 4992523
+    },
+    "562.140842": {
+      "genome_id": "562.140842",
+      "genome_name": "Escherichia coli 018-E1-S06",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4912847,
+      "contigs": 166,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.1,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            31455657
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            31455657
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            31455657
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.140842.fna",
+      "fastaSha256": "0d21946ef3e37a265e3614d8069e8de93484cbf23181b7094f7bb6ee3fdb00cd",
+      "fastaBytes": 4990138
+    },
+    "562.140854": {
+      "genome_id": "562.140854",
+      "genome_name": "Escherichia coli 004-E2-S06",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5063084,
+      "contigs": 102,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.2,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            31455657
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            31455657
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            31455657
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.140854.fna",
+      "fastaSha256": "58bd360c55e3d5340f89bf987e55e23ef041ff37ae2a85d9b49a9d96efc247df",
+      "fastaBytes": 5139742
+    },
+    "562.144163": {
+      "genome_id": "562.144163",
+      "genome_name": "Escherichia coli ERR1981378",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5397494,
+      "contigs": 133,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.2,
+      "labels": [
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36916881
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.144163.fna",
+      "fastaSha256": "048b46c4c7ad298fcfcdda95c6ff578cbb703cd001c778f943c2fc2f30476b38",
+      "fastaBytes": 5480272
+    },
+    "562.144951": {
+      "genome_id": "562.144951",
+      "genome_name": "Escherichia coli PT_EC0021",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5585734,
+      "contigs": 344,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.2,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.144951.fna",
+      "fastaSha256": "09892e0eafd7f12eebf970b373424c86529f3841c74478aef4742cb661e92d4e",
+      "fastaBytes": 5680380
+    },
+    "562.144953": {
+      "genome_id": "562.144953",
+      "genome_name": "Escherichia coli PT_EC0064",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4947452,
+      "contigs": 132,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.2,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.144953.fna",
+      "fastaSha256": "390df7ab59cf8454d089121bd552d15f1854d311c992417bca33e3d1ec754026",
+      "fastaBytes": 5023765
+    },
+    "562.144964": {
+      "genome_id": "562.144964",
+      "genome_name": "Escherichia coli PT_EC0006",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4873141,
+      "contigs": 162,
+      "checkm_completeness": 99.9,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.144964.fna",
+      "fastaSha256": "4f33cacaf2842bcdfcd09557733b7345374328baf31f5f705474a9b6ec270bdd",
+      "fastaBytes": 4949695
+    },
+    "562.144971": {
+      "genome_id": "562.144971",
+      "genome_name": "Escherichia coli PT_EC0070",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4694571,
+      "contigs": 72,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.144971.fna",
+      "fastaSha256": "2d88e246e6dd03183f1846ee60be7be848d9442feb3fafebf8f5888a9f8bc64a",
+      "fastaBytes": 4764687
+    },
+    "562.144977": {
+      "genome_id": "562.144977",
+      "genome_name": "Escherichia coli PT_EC0200",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5192173,
+      "contigs": 302,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.1,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.144977.fna",
+      "fastaSha256": "c869e1656be00624e0eb220985cadb86d225e3fc0ba5b0bdbcf535c6dd3ff26c",
+      "fastaBytes": 5279379
+    },
+    "562.144978": {
+      "genome_id": "562.144978",
+      "genome_name": "Escherichia coli PT_EC0027",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5421669,
+      "contigs": 374,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.1,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.144978.fna",
+      "fastaSha256": "0c46744901fcae84fbe82d2a90aaaa748380e730ec2c9cf96d5b8deebd51d261",
+      "fastaBytes": 5515278
+    },
+    "562.145010": {
+      "genome_id": "562.145010",
+      "genome_name": "Escherichia coli PT_EC0168",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5306379,
+      "contigs": 309,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145010.fna",
+      "fastaSha256": "88b15d64d585f6ab9fb41d8041ea45d509d73c3f2ba2aac6cd57a370cdf26c00",
+      "fastaBytes": 5395520
+    },
+    "562.145029": {
+      "genome_id": "562.145029",
+      "genome_name": "Escherichia coli PT_EC0007",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5571630,
+      "contigs": 379,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.1,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145029.fna",
+      "fastaSha256": "c283f05dabf8876710ee6b44694a7a244391c16af67b49c426b16b0e83f784ea",
+      "fastaBytes": 5667612
+    },
+    "562.145034": {
+      "genome_id": "562.145034",
+      "genome_name": "Escherichia coli PT_EC0049",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5484616,
+      "contigs": 374,
+      "checkm_completeness": 99.9,
+      "checkm_contamination": 0.1,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145034.fna",
+      "fastaSha256": "575d3ed1e48555917f45cef09d5e748e04457e9df13032b265a55fb8d478e171",
+      "fastaBytes": 5579140
+    },
+    "562.145057": {
+      "genome_id": "562.145057",
+      "genome_name": "Escherichia coli PT_EC0026",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5227175,
+      "contigs": 380,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145057.fna",
+      "fastaSha256": "fa01d735123db923d53aafc7ad755d38f89494916a4603150fecadf65a508e38",
+      "fastaBytes": 5318269
+    },
+    "562.145074": {
+      "genome_id": "562.145074",
+      "genome_name": "Escherichia coli PT_EC0154",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5034882,
+      "contigs": 179,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145074.fna",
+      "fastaSha256": "2e34479d9488818ce19686e08a16c5d735fd3b82a788ef98d82055c35bb262b5",
+      "fastaBytes": 5114488
+    },
+    "562.145077": {
+      "genome_id": "562.145077",
+      "genome_name": "Escherichia coli PT_EC0133",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4746972,
+      "contigs": 134,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.1,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145077.fna",
+      "fastaSha256": "b394b6ead4102a8203e001c4708a7dea6b9b0a6aa1d0996ea272bb813e1c0a14",
+      "fastaBytes": 4820512
+    },
+    "562.145079": {
+      "genome_id": "562.145079",
+      "genome_name": "Escherichia coli PT_EC0051",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5064559,
+      "contigs": 219,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            36363724
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145079.fna",
+      "fastaSha256": "79792009cd2b5e40a2c019097d434f249f429003a78419d357715d156529e34d",
+      "fastaBytes": 5146328
+    },
+    "562.145395": {
+      "genome_id": "562.145395",
+      "genome_name": "Escherichia coli AGA06_2489",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4997312,
+      "contigs": 111,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145395.fna",
+      "fastaSha256": "bbedb1029e59dba0a3981fa82feafd3249e71a08c24b55780b8baeb65eb8d53d",
+      "fastaBytes": 5073530
+    },
+    "562.145399": {
+      "genome_id": "562.145399",
+      "genome_name": "Escherichia coli AGA06_2498",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5319116,
+      "contigs": 116,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145399.fna",
+      "fastaSha256": "2d9d2767458f1fe82ad1dddf743b61114508800578cf9dec6b71a9826fba5478",
+      "fastaBytes": 5400156
+    },
+    "562.145407": {
+      "genome_id": "562.145407",
+      "genome_name": "Escherichia coli AGA06_2520",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5429132,
+      "contigs": 190,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.1,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145407.fna",
+      "fastaSha256": "9951d0685024b2c882b5c5d739d2c296161c1e7744bdad5e38b0d33f080ed3aa",
+      "fastaBytes": 5515036
+    },
+    "562.145419": {
+      "genome_id": "562.145419",
+      "genome_name": "Escherichia coli AGA06_2533",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5373947,
+      "contigs": 212,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": [
+            34762732
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.145419.fna",
+      "fastaSha256": "180fda2fe68e6447450f451ddcb02aa6c68e2df89355a1e50c766c05acdb23d7",
+      "fastaBytes": 5460046
+    },
+    "562.17359": {
+      "genome_id": "562.17359",
+      "genome_name": "Escherichia coli strain 81009",
+      "genome_status": "Complete",
+      "genome_quality": "Good",
+      "genome_length": 5147804,
+      "contigs": 2,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.17359.fna",
+      "fastaSha256": "19128cd2e22ae8b7213679cf5ce416b74398d2edbd5289a46e75553f98a9bda4",
+      "fastaBytes": 5221387
+    },
+    "562.17621": {
+      "genome_id": "562.17621",
+      "genome_name": "Escherichia coli strain AR_0150",
+      "genome_status": "Complete",
+      "genome_quality": "Good",
+      "genome_length": 5078246,
+      "contigs": 4,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.7,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.17621.fna",
+      "fastaSha256": "3cf74d4bbeca017dc07a29a2aff7a32f9fd45268bbd51d7e14df37af400e5982",
+      "fastaBytes": 5150878
+    },
+    "562.19083": {
+      "genome_id": "562.19083",
+      "genome_name": "Escherichia coli strain ECPSTH08",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5125669,
+      "contigs": 118,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.4,
+      "labels": [
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Agar dilution",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.19083.fna",
+      "fastaSha256": "6764c39bacef5f601b535b9cfadfc319e2f13213751ae0480f6066dd3b5e7546",
+      "fastaBytes": 5202373
+    },
+    "562.19632": {
+      "genome_id": "562.19632",
+      "genome_name": "Escherichia coli strain AR_0058",
+      "genome_status": "Complete",
+      "genome_quality": "Good",
+      "genome_length": 5103486,
+      "contigs": 2,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.4,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.19632.fna",
+      "fastaSha256": "3d0e62315fa454e7f22674b7efb994c819065502b817fb29c60afc176b3efcf0",
+      "fastaBytes": 5176436
+    },
+    "562.22442": {
+      "genome_id": "562.22442",
+      "genome_name": "Escherichia coli O25:H4 strain ECO0015",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5086528,
+      "contigs": 133,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.22442.fna",
+      "fastaSha256": "681a9f908fda0567d17941cd4f8c9f42c07656aa1a5ed0cd85147349c6462924",
+      "fastaBytes": 5166262
+    },
+    "562.22647": {
+      "genome_id": "562.22647",
+      "genome_name": "Escherichia coli O2:H4 strain ECO0235",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5123324,
+      "contigs": 114,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.7,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.22647.fna",
+      "fastaSha256": "ac50e041eac758148d1992115309a6ff04218e87fab14b1ed259168651ed4659",
+      "fastaBytes": 5202571
+    },
+    "562.22745": {
+      "genome_id": "562.22745",
+      "genome_name": "Escherichia coli O6:H1 strain ECO0335",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5168545,
+      "contigs": 133,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.22745.fna",
+      "fastaSha256": "7d2373523d854f3f109449600b935fe1fc16d469c977ae7c2766565929988373",
+      "fastaBytes": 5249463
+    },
+    "562.22934": {
+      "genome_id": "562.22934",
+      "genome_name": "Escherichia coli O8:H4 strain ECO0544",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5132815,
+      "contigs": 126,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Agar dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        },
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "MIC",
+          "testing_standard": "",
+          "pmid": [
+            38219757
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Agar dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.22934.fna",
+      "fastaSha256": "78c6bdcb1dfb114a1f844013c056cb20149a95cd21dadf4ed665cdd57dc41907",
+      "fastaBytes": 5212842
+    },
+    "562.23346": {
+      "genome_id": "562.23346",
+      "genome_name": "Escherichia coli O83:H4 strain ECO1109",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4779304,
+      "contigs": 53,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.4,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Agar dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        },
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "MIC",
+          "testing_standard": "",
+          "pmid": [
+            38219757
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Agar dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.23346.fna",
+      "fastaSha256": "5cea5b26c7dba72e486ab5708b3256020f17bfe719127fc5f20dad53e40f1b27",
+      "fastaBytes": 4850400
+    },
+    "562.23390": {
+      "genome_id": "562.23390",
+      "genome_name": "Escherichia coli O17:H18 strain ECO1155",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4911907,
+      "contigs": 73,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Agar dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        },
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "MIC",
+          "testing_standard": "",
+          "pmid": [
+            38219757
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Agar dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.23390.fna",
+      "fastaSha256": "33ef08b0991ea838efc8a8168e8b22a725084677b6b89a87a7aa3ceac3340ea0",
+      "fastaBytes": 4985957
+    },
+    "562.23760": {
+      "genome_id": "562.23760",
+      "genome_name": "Escherichia coli O25:H4 strain ECO1507",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5110385,
+      "contigs": 110,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Agar dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        },
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "MIC",
+          "testing_standard": "",
+          "pmid": [
+            38219757
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Agar dilution",
+          "testing_standard": "",
+          "pmid": [
+            28720578
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.23760.fna",
+      "fastaSha256": "d346c27ae496e636c870dc9035025a72852470bc1b86afe70cfe3b9308496a32",
+      "fastaBytes": 5189239
+    },
+    "562.28565": {
+      "genome_id": "562.28565",
+      "genome_name": "Escherichia coli strain AR_0368",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5305829,
+      "contigs": 7,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.28565.fna",
+      "fastaSha256": "51b3c31ae63ffac332497fb24526ec28e7bc9ce2ef15aa2f2bc8fbcb3e4629bc",
+      "fastaBytes": 5381832
+    },
+    "562.28845": {
+      "genome_id": "562.28845",
+      "genome_name": "Escherichia coli strain RDK40_71E",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5440829,
+      "contigs": 255,
+      "checkm_completeness": 100,
+      "checkm_contamination": 1.2,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            29977533
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            29977533
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            29977533
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.28845.fna",
+      "fastaSha256": "4046e6ed141d8be8a0e2d986df86c305017a4137e8281a20c1e671d95f2bb202",
+      "fastaBytes": 5526073
+    },
+    "562.31451": {
+      "genome_id": "562.31451",
+      "genome_name": "Escherichia coli strain KCRI-244 strain R0007_244",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5080513,
+      "contigs": 177,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.7,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            29977533
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            29977533
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            29977533
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.31451.fna",
+      "fastaSha256": "003e9fcda808a3fdc1dd700e76645df5244cb540ca74b9f2bc7fce395b558083",
+      "fastaBytes": 5158308
+    },
+    "562.33280": {
+      "genome_id": "562.33280",
+      "genome_name": "Escherichia coli strain AR_0450",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5092916,
+      "contigs": 3,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.33280.fna",
+      "fastaSha256": "2f76cd4cbc19bd21a55f36038d40dcf6d900bf5ad2721fcefa3999298c0f3ef6",
+      "fastaBytes": 5165760
+    },
+    "562.37112": {
+      "genome_id": "562.37112",
+      "genome_name": "Escherichia coli strain KCRI-82 strain RDK43_82",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5094321,
+      "contigs": 366,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 2.29,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            29977533
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            29977533
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            29977533
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.37112.fna",
+      "fastaSha256": "8fc83cbec5b07b53d5f13708adb8ccbb11ec317f87ff2ffc8fc35ab68437df62",
+      "fastaBytes": 5177881
+    },
+    "562.42645": {
+      "genome_id": "562.42645",
+      "genome_name": "Escherichia coli strain 144",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5113561,
+      "contigs": 119,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42645.fna",
+      "fastaSha256": "90c046c2394a4d4b082b856081c90242a2784b1a7a3b4b5e06c9079e4d78716e",
+      "fastaBytes": 5193137
+    },
+    "562.42658": {
+      "genome_id": "562.42658",
+      "genome_name": "Escherichia coli strain 163",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4968524,
+      "contigs": 129,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42658.fna",
+      "fastaSha256": "da9bb8ec7f2244b7a090c7b0be7507dab8bac309870ace9daac4ddb59566153a",
+      "fastaBytes": 5046606
+    },
+    "562.42683": {
+      "genome_id": "562.42683",
+      "genome_name": "Escherichia coli strain 235",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5230361,
+      "contigs": 199,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.22,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42683.fna",
+      "fastaSha256": "0b0d3d1d7924ca574136cfc0d0e58058d8c9c53e41613f9e51ebc73248cc7406",
+      "fastaBytes": 5315959
+    },
+    "562.42718": {
+      "genome_id": "562.42718",
+      "genome_name": "Escherichia coli strain 327",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5345955,
+      "contigs": 124,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42718.fna",
+      "fastaSha256": "b59f7f29ed6cb59f0313b633f20f6cc03c0da7585da802cf38ddb8cb7b48f46b",
+      "fastaBytes": 5429151
+    },
+    "562.42724": {
+      "genome_id": "562.42724",
+      "genome_name": "Escherichia coli strain 363",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4990108,
+      "contigs": 116,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42724.fna",
+      "fastaSha256": "3605110e924c64fb595b7b270d741f7531b803ae5a8752a3e8defc49c58c5b87",
+      "fastaBytes": 5067773
+    },
+    "562.42739": {
+      "genome_id": "562.42739",
+      "genome_name": "Escherichia coli strain 409",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5246366,
+      "contigs": 240,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42739.fna",
+      "fastaSha256": "88a82ea538f250b91e0cff0bb98df3c26a8a829cabc09fce20280acf4eccf12e",
+      "fastaBytes": 5334454
+    },
+    "562.42743": {
+      "genome_id": "562.42743",
+      "genome_name": "Escherichia coli strain 467",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4829569,
+      "contigs": 145,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42743.fna",
+      "fastaSha256": "f055966ad09dba6d98d7d4310f91f034cf269f966a122f1f80878217ec606cee",
+      "fastaBytes": 4906535
+    },
+    "562.42826": {
+      "genome_id": "562.42826",
+      "genome_name": "Escherichia coli strain MUGSI_14",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5239760,
+      "contigs": 130,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42826.fna",
+      "fastaSha256": "5268cb681b2abd2604e409a749bd60c2f8a26ab5909cd3ba146e0f7e27ae90ac",
+      "fastaBytes": 5321822
+    },
+    "562.42836": {
+      "genome_id": "562.42836",
+      "genome_name": "Escherichia coli strain MUGSI_205",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4968678,
+      "contigs": 91,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42836.fna",
+      "fastaSha256": "8649bac574b91a81f9ce1efd4d448e86bcca99427c01dd0537053d92f17d7d2d",
+      "fastaBytes": 5044658
+    },
+    "562.42852": {
+      "genome_id": "562.42852",
+      "genome_name": "Escherichia coli strain MUGSI_250",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5104418,
+      "contigs": 100,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42852.fna",
+      "fastaSha256": "22881b162d80a23d27dd0619a4479729c8e15f2b95721e281678fccb76e1b9e0",
+      "fastaBytes": 5182856
+    },
+    "562.42859": {
+      "genome_id": "562.42859",
+      "genome_name": "Escherichia coli strain MUGSI_278",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5252910,
+      "contigs": 208,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.22,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.42859.fna",
+      "fastaSha256": "ddcc6b89662815f41be36132365f416a209a708e76348c045a6ba27833e521c6",
+      "fastaBytes": 5339367
+    },
+    "562.45396": {
+      "genome_id": "562.45396",
+      "genome_name": "Escherichia coli strain BR10-DEC",
+      "genome_status": "Complete",
+      "genome_quality": "Good",
+      "genome_length": 5094768,
+      "contigs": 6,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.45396.fna",
+      "fastaSha256": "b664a39737933d577efa05d0f90ac52623a91c016a9a833870d4da142307a004",
+      "fastaBytes": 5167679
+    },
+    "562.45604": {
+      "genome_id": "562.45604",
+      "genome_name": "Escherichia coli strain EC_73",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5048030,
+      "contigs": 132,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.22,
+      "labels": [
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            32010104
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            32010104
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.45604.fna",
+      "fastaSha256": "29662e066a51cdfcdb890431bae4c81ce5fa8d31f4fcdf1358eb58d54d17f628",
+      "fastaBytes": 5124038
+    },
+    "562.45617": {
+      "genome_id": "562.45617",
+      "genome_name": "Escherichia coli strain EC_22",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4705449,
+      "contigs": 74,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            32010104
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            32010104
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            32010104
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.45617.fna",
+      "fastaSha256": "98973f141d2e9f3559b9032771c952f0180975025357c3130179ba2235346688",
+      "fastaBytes": 4774849
+    },
+    "562.45636": {
+      "genome_id": "562.45636",
+      "genome_name": "Escherichia coli strain EC_48",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4914590,
+      "contigs": 91,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            32010104
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            32010104
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            32010104
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.45636.fna",
+      "fastaSha256": "90913caa37b37d581d27a343544c2254686291cb7f006f63c13d1bc9fdbd00f4",
+      "fastaBytes": 4987481
+    },
+    "562.45848": {
+      "genome_id": "562.45848",
+      "genome_name": "Escherichia coli strain URMC_50",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4807435,
+      "contigs": 55,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "CLSI",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.45848.fna",
+      "fastaSha256": "e376075d54d489a438beedec05eebd1ed48b8dbf96c9442d9233159b787446e8",
+      "fastaBytes": 4877732
+    },
+    "562.48348": {
+      "genome_id": "562.48348",
+      "genome_name": "Escherichia coli 292",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5397571,
+      "contigs": 229,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.48348.fna",
+      "fastaSha256": "73d5344f4616b61b6127fcb29dc614e2bbcfccff94e463566a5ed9fbebda1f97",
+      "fastaBytes": 5486803
+    },
+    "562.57279": {
+      "genome_id": "562.57279",
+      "genome_name": "Escherichia coli strain 24742_1#228",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5264970,
+      "contigs": 156,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30550564
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30550564
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.57279.fna",
+      "fastaSha256": "b71994007b3aaf92bb754e07fba0040df2fe303b7f5090748e874ce027ee7411",
+      "fastaBytes": 5345926
+    },
+    "562.57364": {
+      "genome_id": "562.57364",
+      "genome_name": "Escherichia coli strain PB320",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5474456,
+      "contigs": 181,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.57364.fna",
+      "fastaSha256": "1b18f0597b2f7a5bd9ec4d6da2804da4cbd0113b81cb48a1994c5154210b1114",
+      "fastaBytes": 5562225
+    },
+    "562.57368": {
+      "genome_id": "562.57368",
+      "genome_name": "Escherichia coli strain PB163",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4802582,
+      "contigs": 99,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.57368.fna",
+      "fastaSha256": "9fad2b494b58ab9ec69f90358d60dfb05c81fa587a66caac5ad8fb8ded9aca6b",
+      "fastaBytes": 4876415
+    },
+    "562.57377": {
+      "genome_id": "562.57377",
+      "genome_name": "Escherichia coli strain PB532",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4966641,
+      "contigs": 230,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.57377.fna",
+      "fastaSha256": "1544d344b87f11c6a5346094bbc5f7fb46c52b4b4098adf192ca50b87ec4cada",
+      "fastaBytes": 5049752
+    },
+    "562.57404": {
+      "genome_id": "562.57404",
+      "genome_name": "Escherichia coli strain W1_7_ERG10",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4767222,
+      "contigs": 180,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.57404.fna",
+      "fastaSha256": "42e3a2518e20687b1810a718a309b8dabf37e456957493b2a5fc0a82a8949f8f",
+      "fastaBytes": 4844895
+    },
+    "562.57428": {
+      "genome_id": "562.57428",
+      "genome_name": "Escherichia coli strain W2_5_ERB6",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4704635,
+      "contigs": 156,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.57428.fna",
+      "fastaSha256": "bf9e30278626673ad7af62eab06235b6d65ea27c3119d864c4b997adc8aa7da1",
+      "fastaBytes": 4780131
+    },
+    "562.57453": {
+      "genome_id": "562.57453",
+      "genome_name": "Escherichia coli strain PB230",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4863422,
+      "contigs": 144,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            28877757,
+            30550564
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.57453.fna",
+      "fastaSha256": "ce9e38acc31188b844efbac66d79fe285ff5bcecd0cf3a6e1ffe2e4a5327eeb0",
+      "fastaBytes": 4940510
+    },
+    "562.58628": {
+      "genome_id": "562.58628",
+      "genome_name": "Escherichia coli strain PH135",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4660484,
+      "contigs": 97,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            27965630
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            27965630
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "CLSI",
+          "pmid": [
+            27965630
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.58628.fna",
+      "fastaSha256": "e9cf31591db561f9c0d0377c88d36d100e67f2f78c64db7f1ccff40dda0fd8c6",
+      "fastaBytes": 4732204
+    },
+    "562.58783": {
+      "genome_id": "562.58783",
+      "genome_name": "Escherichia coli strain ENV323",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4961129,
+      "contigs": 127,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "clsi",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "eucast",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "eucast",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "clsi",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "eucast",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "clsi",
+          "pmid": [
+            29184361
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.58783.fna",
+      "fastaSha256": "fb576b4efc2123493221ed2464853400a9b2e0c8d05850300a6f6491921052a6",
+      "fastaBytes": 5038743
+    },
+    "562.58784": {
+      "genome_id": "562.58784",
+      "genome_name": "Escherichia coli strain ENV326",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4959428,
+      "contigs": 96,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "eucast",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "clsi",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "clsi",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "eucast",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "clsi",
+          "pmid": [
+            29184361
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "eucast",
+          "pmid": [
+            29184361
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.58784.fna",
+      "fastaSha256": "74050decc2511a8b206eb025e8c6be8fbdf95d85f79eb2ff66e2616ea42c754d",
+      "fastaBytes": 5035356
+    },
+    "562.7672": {
+      "genome_id": "562.7672",
+      "genome_name": "Escherichia coli strain 402097_aEPEC",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4862086,
+      "contigs": 89,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.7672.fna",
+      "fastaSha256": "eecbaa6db366ef744ceee42bb6f471d76316ef72288addd220e8fde484fd2a4b",
+      "fastaBytes": 4942538
+    },
+    "562.7682": {
+      "genome_id": "562.7682",
+      "genome_name": "Escherichia coli strain 102014_aEPEC",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4749305,
+      "contigs": 57,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.7682.fna",
+      "fastaSha256": "2936c946b9d9ced303f9244404c3dc045509d6db663bd2e54c3d50e8f8d8a949",
+      "fastaBytes": 4824190
+    },
+    "562.7702": {
+      "genome_id": "562.7702",
+      "genome_name": "Escherichia coli strain R203092-3B",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4925521,
+      "contigs": 141,
+      "checkm_completeness": 100,
+      "checkm_contamination": 0.4,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "ceftriaxone",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            30127495
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.7702.fna",
+      "fastaSha256": "57e16dc0073d8caed62e805f5c53574a4cc80fa009ba30f9a074253c899d06a5",
+      "fastaBytes": 5013300
+    },
+    "562.96455": {
+      "genome_id": "562.96455",
+      "genome_name": "Escherichia coli VREC0662",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4838276,
+      "contigs": 117,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96455.fna",
+      "fastaSha256": "ea396919acc4208390fb2cc8d4a0d287281c3811e0824fef1d93a1e1e5f449fc",
+      "fastaBytes": 4912257
+    },
+    "562.96463": {
+      "genome_id": "562.96463",
+      "genome_name": "Escherichia coli VREC0675",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4935029,
+      "contigs": 129,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96463.fna",
+      "fastaSha256": "639db6bdaa795328a1d145c0bed70fff7e0028065014b0c552eefa0ad620a05d",
+      "fastaBytes": 5010900
+    },
+    "562.96610": {
+      "genome_id": "562.96610",
+      "genome_name": "Escherichia coli VREC0791",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5080039,
+      "contigs": 238,
+      "checkm_completeness": 99.67,
+      "checkm_contamination": 0.22,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96610.fna",
+      "fastaSha256": "4c9f2ca59da73e01fce7bcd8ce15a76ec114d5b6b85b1c4f2c94b46a70f591c4",
+      "fastaBytes": 5162620
+    },
+    "562.96666": {
+      "genome_id": "562.96666",
+      "genome_name": "Escherichia coli VRES0835",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5117263,
+      "contigs": 83,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96666.fna",
+      "fastaSha256": "3f4506b67fe4b424f55380557878f415ed28d48ef16aa8518e9702e6a4f62e2e",
+      "fastaBytes": 5193800
+    },
+    "562.96677": {
+      "genome_id": "562.96677",
+      "genome_name": "Escherichia coli VREC0859",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4915264,
+      "contigs": 65,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96677.fna",
+      "fastaSha256": "b95e1351922fc5f6ad1599960a2ac8c18e9a6794f6db255a43a66c0acb3571a4",
+      "fastaBytes": 4988169
+    },
+    "562.96717": {
+      "genome_id": "562.96717",
+      "genome_name": "Escherichia coli VREC0877",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4776427,
+      "contigs": 162,
+      "checkm_completeness": 99.67,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96717.fna",
+      "fastaSha256": "c807874cd1252148470dad4b18b279083e727115ec959c0c08cbc29a3133539e",
+      "fastaBytes": 4851438
+    },
+    "562.96784": {
+      "genome_id": "562.96784",
+      "genome_name": "Escherichia coli VRES0985",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5320212,
+      "contigs": 199,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96784.fna",
+      "fastaSha256": "8452f4f0f1389e25017d60ffcfea4461a9b8c7cb04b7062ebde2823406dbbd71",
+      "fastaBytes": 5404563
+    },
+    "562.96919": {
+      "genome_id": "562.96919",
+      "genome_name": "Escherichia coli VREC1028",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5010365,
+      "contigs": 89,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96919.fna",
+      "fastaSha256": "36d889829ec49cc5e268b46f2150879c1906b6ffd942fc00438e4f854c53a40b",
+      "fastaBytes": 5085625
+    },
+    "562.96965": {
+      "genome_id": "562.96965",
+      "genome_name": "Escherichia coli VRES1169",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5226738,
+      "contigs": 127,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96965.fna",
+      "fastaSha256": "f7d656ee409825d5ea26ab9407191fc75b153fb7becac233cb9ac92541e0d3c2",
+      "fastaBytes": 5306698
+    },
+    "562.96971": {
+      "genome_id": "562.96971",
+      "genome_name": "Escherichia coli VREC1064",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5447864,
+      "contigs": 267,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96971.fna",
+      "fastaSha256": "c222542cc2d264b20105b4a510a65834de0dba633e38a4a572d1b50139e8a87b",
+      "fastaBytes": 5536933
+    },
+    "562.96995": {
+      "genome_id": "562.96995",
+      "genome_name": "Escherichia coli VRES1152",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5460181,
+      "contigs": 280,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.96995.fna",
+      "fastaSha256": "04259f46121b35a1d85de4f604293c2440f6afc4a507b8dcfa880a6498522830",
+      "fastaBytes": 5549978
+    },
+    "562.97072": {
+      "genome_id": "562.97072",
+      "genome_name": "Escherichia coli VRES1308",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5226204,
+      "contigs": 126,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.97072.fna",
+      "fastaSha256": "28e0651ba72782285fff41d21f546a060c68e5845dd1a90ff2847ef2e49c9d58",
+      "fastaBytes": 5306110
+    },
+    "562.97074": {
+      "genome_id": "562.97074",
+      "genome_name": "Escherichia coli VRES1304",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5224919,
+      "contigs": 115,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.97074.fna",
+      "fastaSha256": "dc03b99b03fe9618648be47301d9c6ccfc7f8dde6ab42c32fa342c34612c4e22",
+      "fastaBytes": 5304342
+    },
+    "562.97222": {
+      "genome_id": "562.97222",
+      "genome_name": "Escherichia coli VRES1434",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5160038,
+      "contigs": 149,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Broth dilution",
+          "testing_standard": "EUCAST",
+          "pmid": [
+            34485958
+          ]
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.97222.fna",
+      "fastaSha256": "986be1170ffbc9bcf3ba01a2ad32db978d79d171f5bd4e0b05d783d9f30f3029",
+      "fastaBytes": 5239981
+    },
+    "562.97986": {
+      "genome_id": "562.97986",
+      "genome_name": "Escherichia coli d5740956-7bb8-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5065494,
+      "contigs": 75,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.97986.fna",
+      "fastaSha256": "d75bd6367c907170283b04cd86a786341801c922ce5a8b409c5cb399e5ff08af",
+      "fastaBytes": 5140960
+    },
+    "562.98113": {
+      "genome_id": "562.98113",
+      "genome_name": "Escherichia coli d58db77a-7bb8-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5040718,
+      "contigs": 91,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98113.fna",
+      "fastaSha256": "47f03dfb28c6eebdab34a6d91e15314f877222a10a9472c34c692abfa8af92f6",
+      "fastaBytes": 5116490
+    },
+    "562.98175": {
+      "genome_id": "562.98175",
+      "genome_name": "Escherichia coli 50046076-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5071373,
+      "contigs": 60,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98175.fna",
+      "fastaSha256": "7261cab7fff6d67e5574057840f11629aa7010699124f5620f339b0f3d65a698",
+      "fastaBytes": 5146299
+    },
+    "562.98181": {
+      "genome_id": "562.98181",
+      "genome_name": "Escherichia coli 363355c6-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5153969,
+      "contigs": 102,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98181.fna",
+      "fastaSha256": "a2bfb286db1379a9534bdac77f1ec363fcbee1b4a13cb26d615bbf70ce088ca3",
+      "fastaBytes": 5231826
+    },
+    "562.98212": {
+      "genome_id": "562.98212",
+      "genome_name": "Escherichia coli 62d02aa0-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5269068,
+      "contigs": 159,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98212.fna",
+      "fastaSha256": "7688fbe19a6f92747543c2ca95b77b9414e108aa30c3de5e52b163c6677b7f18",
+      "fastaBytes": 5350987
+    },
+    "562.98316": {
+      "genome_id": "562.98316",
+      "genome_name": "Escherichia coli 31cea56c-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5213851,
+      "contigs": 174,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98316.fna",
+      "fastaSha256": "385461d560408ff336cef9e72dc149586b0f526dba5e380847201780f51ace42",
+      "fastaBytes": 5295623
+    },
+    "562.98348": {
+      "genome_id": "562.98348",
+      "genome_name": "Escherichia coli 451b6df8-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4623554,
+      "contigs": 95,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98348.fna",
+      "fastaSha256": "b66050a146a86b5e3c0d5eeef8278d13a066059b3e38aa01c8d978794b1d8465",
+      "fastaBytes": 4693537
+    },
+    "562.98437": {
+      "genome_id": "562.98437",
+      "genome_name": "Escherichia coli 69428e5a-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5119992,
+      "contigs": 88,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98437.fna",
+      "fastaSha256": "5c8397e4c8fbe5b60f5f072d7c3142a3f5fab71cc0253ccf7658b96648ce9537",
+      "fastaBytes": 5196779
+    },
+    "562.98490": {
+      "genome_id": "562.98490",
+      "genome_name": "Escherichia coli 7dc1e52a-7bb8-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5746287,
+      "contigs": 215,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0.11,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98490.fna",
+      "fastaSha256": "e24b1a003d7c7c9d244e21b9234fbde2ec11f596ee47246c6285c0c4b7a19168",
+      "fastaBytes": 5837407
+    },
+    "562.98523": {
+      "genome_id": "562.98523",
+      "genome_name": "Escherichia coli 131ccef0-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4956027,
+      "contigs": 90,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98523.fna",
+      "fastaSha256": "8158800b0dca58d65ebc1659fe328f63f94fcfa06a06f53aafa3131d259df0fe",
+      "fastaBytes": 5030550
+    },
+    "562.98800": {
+      "genome_id": "562.98800",
+      "genome_name": "Escherichia coli 9f56feb8-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5281624,
+      "contigs": 124,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98800.fna",
+      "fastaSha256": "c143c411cc04538468fd13d50ec1bfb1efee40a089371cf10880e2139f878956",
+      "fastaBytes": 5362236
+    },
+    "562.98919": {
+      "genome_id": "562.98919",
+      "genome_name": "Escherichia coli ae9caf7c-7bb8-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5074741,
+      "contigs": 142,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.98919.fna",
+      "fastaSha256": "c57ed97d3788d0d613a6c1e6adf622a94884db6414b7205400c2a1ae1a86ec82",
+      "fastaBytes": 5153164
+    },
+    "562.99080": {
+      "genome_id": "562.99080",
+      "genome_name": "Escherichia coli 80bdbe60-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4873650,
+      "contigs": 62,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.99080.fna",
+      "fastaSha256": "c9c297fe710286334b85ba62c8a620c038c9e546f01b207c340c13ff80562b6a",
+      "fastaBytes": 4945837
+    },
+    "562.99156": {
+      "genome_id": "562.99156",
+      "genome_name": "Escherichia coli 8efb7e5e-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 4844425,
+      "contigs": 168,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.99156.fna",
+      "fastaSha256": "0ef7e9720c8b5be4336eceff9727345846fc9153a5dacd1ba9a4cd820d5868fb",
+      "fastaBytes": 4920665
+    },
+    "562.99320": {
+      "genome_id": "562.99320",
+      "genome_name": "Escherichia coli e50150f4-7bb8-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5098223,
+      "contigs": 88,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.99320.fna",
+      "fastaSha256": "ace9edc3bd58fd906ee3b3c257013a9ea3c2fd3d397484b92c775de7e1a48ada",
+      "fastaBytes": 5174699
+    },
+    "562.99400": {
+      "genome_id": "562.99400",
+      "genome_name": "Escherichia coli a7b8e26a-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5052539,
+      "contigs": 85,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Resistant",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.99400.fna",
+      "fastaSha256": "2ddb970fc86567cd9e74ef57ffdbfbc604bb9ac9840bc9a3e412460fcc27689d",
+      "fastaBytes": 5128235
+    },
+    "562.99437": {
+      "genome_id": "562.99437",
+      "genome_name": "Escherichia coli 5051a3ea-7bb9-11e9-a8d3-68b59976a384",
+      "genome_status": "WGS",
+      "genome_quality": "Good",
+      "genome_length": 5166730,
+      "contigs": 102,
+      "checkm_completeness": 99.78,
+      "checkm_contamination": 0,
+      "labels": [
+        {
+          "antibiotic": "ciprofloxacin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        },
+        {
+          "antibiotic": "gentamicin",
+          "resistant_phenotype": "Susceptible",
+          "laboratory_typing_method": "Disk diffusion",
+          "testing_standard": "EUCAST",
+          "pmid": []
+        }
+      ],
+      "fastaPath": "data/raw/genomes/562.99437.fna",
+      "fastaSha256": "91e794c5d74218ba84ff520b424e4434a34cd20a2949ff434ac2460c6676a385",
+      "fastaBytes": 5244771
+    }
+  }
+}
