@@ -79,7 +79,7 @@ Current realized results (102-genome cohort, see "Realized results" in [data/REA
 
 - The real-data cohort behind the current `models/*.json` is a 102-genome, ~25-per-class-bucket BV-BRC sample (see "Known limits of this cohort" in [data/README.md](./data/README.md)) -- enough to exercise the full pipeline honestly, not enough to claim confident real-world performance. No coefficients are presented as clinically validated.
 - No organizer-pinned hidden test set was provided to this team; reported metrics are this pipeline's own held-out grouped split, not an external hidden evaluation.
-- The current target gate uses supported-species identity plus assembly QC as a transparent proxy. A production submission should add explicit target-locus detection from an annotation pipeline.
+- The target gate uses explicit target-locus detection: imported GFF annotation when supplied, otherwise a conserved-motif scan run directly against the FASTA assembly (`src/targets.js`, mirrored in the GitHub Pages static preview). The current BV-BRC training cohort has the target locus present in every genome (these are essential, near-universal *E. coli* genes), so `target_confirmed` has not been evaluated against a genome that actually lacks the target.
 - A complete FASTA-only scan requires AMRFinderPlus on the host. Without it, upload the matching TSV; otherwise susceptible calls are disabled.
 - The project deliberately does not generate organism modifications, optimize pathogens, prescribe antibiotics, or make autonomous treatment decisions.
 
