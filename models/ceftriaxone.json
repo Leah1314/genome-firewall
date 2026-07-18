@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "antibiotic": "ceftriaxone",
-  "trainedAt": "2026-07-18T20:48:39.034Z",
+  "trainedAt": "2026-07-18T22:39:55.443Z",
   "featureNames": [
     "marker_count",
     "mutation_count"

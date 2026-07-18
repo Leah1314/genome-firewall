@@ -31,7 +31,7 @@
 ## Highest-value next integrations
 
 1. ~~Install and pin AMRFinderPlus so raw FASTA works on the demo machine.~~ Done: AMRFinderPlus 4.2.7 / db 2026-05-15.1, see `data/README.md`.
-2. ~~Obtain the organizer-pinned BV-BRC cohort and train the first genuinely measured model.~~ Done with a self-pinned 102-genome cohort (no organizer file was provided); scale up `--target-per-class` in `fetch_bvbrc_cohort.py` toward the brief's 1,000-3,000 genome range as time allows -- AMRFinderPlus wall-clock on a 2-core host is the bottleneck, not data availability.
+2. ~~Obtain the organizer-pinned BV-BRC cohort and train the first genuinely measured model.~~ Done with a self-pinned 102-genome cohort (no organizer file was provided). The brief's 1,000-3,000 genome figure is guidance for organizers preparing a fixed dataset, not a requirement on team submissions -- but scaling up `--target-per-class` in `fetch_bvbrc_cohort.py` would still shrink the held-out test folds' uncertainty as time allows; AMRFinderPlus wall-clock on a 2-core host is the bottleneck, not data availability.
 3. Add explicit target-locus detection; the current species + QC proxy must stay visibly labeled until replaced.
 4. ~~Add an OpenAI structured explanation endpoint for plain-language summaries and optional image/report interpretation.~~ Done: `src/openai-report.js` (text, Responses API) and `src/openai-image.js` (schematic evidence diagram, image generation) both consume audited JSON only and cannot alter decisions.
 5. Containerize and deploy only after local FASTA → report works twice on held-out examples.

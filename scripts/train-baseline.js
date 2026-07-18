@@ -237,22 +237,9 @@ function evaluate(testRows, model, features, thresholds) {
   };
 }
 
-function selectThresholds(rows, model, features, calibration) {
-  let best = null;
-  for (let susceptible = 0.1; susceptible <= 0.45; susceptible += 0.05) {
-    for (let resistant = 0.55; resistant <= 0.9; resistant += 0.05) {
-      const thresholds = { susceptible: Number(susceptible.toFixed(2)), resistant: Number(resistant.toFixed(2)) };
-      const result = evaluate(rows, model, features, calibration, thresholds);
-      if (result.calledAccuracy === null || result.balancedAccuracy === null) continue;
-      const utility = result.calledAccuracy * 0.55 + result.balancedAccuracy * 0.35 - result.noCallRate * 0.1;
-      if (!best || utility > best.utility) best = { thresholds, utility };
-    }
-  }
-  return best?.thresholds || { susceptible: 0.33, resistant: 0.67 };
-}
-
 function modelCard(artifact) {
-  const metric = artifact.testMetrics;
+  const metric = artifact.validation;
+  const groups = artifact.groupedSplit;
   return `# ${artifact.antibiotic} baseline model card
 
 ## Intended use
@@ -262,10 +249,10 @@ Research-only early warning for antibiotic failure in the explicitly supported s
 ## Training design
 
 - Model: L2-regularized logistic regression
-- Split: deterministic group-level train / validation / test
-- Groups: ${artifact.groupedSplit.train} train, ${artifact.groupedSplit.validation} validation, ${artifact.groupedSplit.test} test
-- Calibration: Platt scaling fitted on validation groups only
-- Abstention thresholds: susceptible <= ${artifact.thresholds.susceptible}; resistant >= ${artifact.thresholds.resistant}; otherwise no-call
+- Split: deterministic group-level train / calibration / test
+- Groups: ${groups.trainGroups} train, ${groups.calibrationGroups} calibration, ${groups.testGroups} test
+- Calibration: threshold calibration fitted on the calibration split only
+- Abstention thresholds: likely-to-work <= ${artifact.thresholds.lowThreshold}; likely-to-fail >= ${artifact.thresholds.highThreshold}; otherwise no-call
 
 ## Held-out test metrics
 
@@ -273,8 +260,8 @@ Research-only early warning for antibiotic failure in the explicitly supported s
 - Balanced accuracy: ${metric.balancedAccuracy ?? "not estimable"}
 - Resistant recall: ${metric.resistantRecall ?? "not estimable"}
 - Susceptible recall: ${metric.susceptibleRecall ?? "not estimable"}
-- Resistant F1: ${metric.resistantF1 ?? "not estimable"}
-- AUROC: ${metric.auroc ?? "not estimable"}
+- Resistant F1: ${metric.f1Resistant ?? "not estimable"}
+- AUROC: ${metric.auRoc ?? "not estimable"}
 - PR-AUC: ${metric.prAuc ?? "not estimable"}
 - Brier score: ${metric.brierScore}
 - No-call rate: ${metric.noCallRate}
@@ -324,4 +311,11 @@ async function main() {
   console.log(JSON.stringify(artifact.validation, null, 2));
 }
 
-module.exports = { parseCsv, groupedSplit, trainLogistic, fitPlatt, evaluate, selectThresholds };
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = { parseCsv, groupedSplit, trainLogistic, evaluate, calibrateThresholds };

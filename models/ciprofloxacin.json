@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "antibiotic": "ciprofloxacin",
-  "trainedAt": "2026-07-18T20:48:38.956Z",
+  "trainedAt": "2026-07-18T22:39:55.391Z",
   "featureNames": [
     "marker_count",
     "mutation_count"
