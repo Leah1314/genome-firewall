@@ -23,7 +23,7 @@ async function analyzeGenome({ fastaText, amrTsv = "", gffText = "", species = "
     }
   }
 
-  const targetEvidence = buildTargetEvidence(gffText);
+  const targetEvidence = buildTargetEvidence(gffText, records);
   const context = { species, genomeSummary, hits, readerMode, targetEvidence };
   const predictions = runPredictions(context);
   const audit = auditPredictions(predictions, context);
@@ -34,7 +34,7 @@ async function analyzeGenome({ fastaText, amrTsv = "", gffText = "", species = "
     reader: {
       mode: readerMode,
       hitCount: hits.length,
-      targetAnnotation: gffText.trim() ? "imported_gff" : "not_supplied",
+      targetAnnotation: gffText.trim() ? "imported_gff" : "fasta_scan",
     },
     genome: genomeSummary,
     predictions,

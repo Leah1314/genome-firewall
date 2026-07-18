@@ -142,18 +142,22 @@ training and test. `build_groups.py`:
 ## 4. Feature table: `data/features.csv`
 
 `build_features.js` reuses `src/config.js`'s `ANTIBIOTICS` marker regex
-patterns and `src/predictor.js`'s `matchesMarker` / `classifyEvidence`
-functions directly -- not a reimplementation -- so training features and
-live inference features are computed by identical code. Schema:
+patterns and `src/features.js`'s `extractAntibioticFeatures` function
+directly -- not a reimplementation -- so training features and live
+inference features are computed by identical code. Schema:
 
 ```
-sample_id,group_id,antibiotic,label,marker_count,mutation_count
+sample_id,group_id,antibiotic,label,marker_count,mutation_count,target_confirmed
 ```
 
 `label` is `1` for `Resistant`, `0` for `Susceptible`. `marker_count` /
 `mutation_count` are raw (uncapped) counts of AMRFinderPlus hits matching
 that antibiotic's marker patterns, split by evidence category (known
-gene vs. known point mutation).
+gene vs. known point mutation). `target_confirmed` is `1` when the
+antibiotic's required molecular target context is confirmed; in this
+BV-BRC *E. coli* cohort it is fixed at `1`, while live FASTA-only
+inference now detects the required target locus signatures directly from
+the uploaded assembly when no GFF is supplied.
 
 ## 5. Training and calibration: `scripts/train-baseline.js`
 
@@ -228,8 +232,12 @@ Regenerate with `node scripts/train-baseline.js data/features.csv <antibiotic>`;
   wall-clock time on a 2-core host (~25-35s/genome), not the data
   availability -- BV-BRC has 15,000+ E. coli genomes with laboratory AMR
   phenotypes for ciprofloxacin/gentamicin alone.
-- The target-context gate is still the same species+QC proxy documented
-  in `README.md` / `AGENTS.md`, not explicit target-locus detection.
+- The live target-context gate now uses explicit target-locus evidence:
+  imported GFF annotation when supplied, otherwise a conservative FASTA
+  scan for the required target locus signatures. The cohort feature table
+  records this as `target_confirmed`, but the current BV-BRC training rows
+  are all supported *E. coli* contexts and therefore do not estimate
+  performance on target-missing assemblies.
 - No organizer-pinned hidden test set exists for this team; `test`
   metrics in each `models/<antibiotic>.json` are this pipeline's own
   held-out grouped split, not an external hidden evaluation.

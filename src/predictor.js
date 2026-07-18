@@ -48,13 +48,15 @@ function targetGate({ species, genomeSummary, targetEvidence }, antibioticId) {
   };
 }
 
-function scoreEvidence(antibiotic, geneCount, mutationCount) {
+function scoreEvidence(antibiotic, features) {
   const trained = TRAINED_MODELS[antibiotic.id];
   if (trained) {
     const weights = trained.model.weights;
-    const rawScore = trained.model.intercept
-      + (weights.marker_count || 0) * geneCount
-      + (weights.mutation_count || 0) * mutationCount;
+    const featureNames = trained.featureNames || Object.keys(weights);
+    const rawScore = trained.model.intercept + featureNames.reduce(
+      (sum, name) => sum + (weights[name] || 0) * (features[name] || 0),
+      0,
+    );
     return {
       probabilityOfFailure: Number(sigmoid(rawScore).toFixed(3)),
       highThreshold: trained.thresholds.highThreshold,
@@ -63,8 +65,8 @@ function scoreEvidence(antibiotic, geneCount, mutationCount) {
     };
   }
   const rawScore = antibiotic.intercept
-    + antibiotic.markerWeight * Math.min(geneCount, 2)
-    + antibiotic.mutationWeight * Math.min(mutationCount, 2);
+    + antibiotic.markerWeight * Math.min(features.marker_count || 0, 2)
+    + antibiotic.mutationWeight * Math.min(features.mutation_count || 0, 2);
   return {
     probabilityOfFailure: Number(sigmoid(rawScore).toFixed(3)),
     highThreshold: 0.67,
@@ -90,12 +92,14 @@ function evidenceCategory(evidenceList, decision) {
 
 function predictAntibiotic(antibiotic, context) {
   const gate = targetGate(context, antibiotic.id);
-  const evidence = context.hits
-    .filter((hit) => matchesMarker(hit, antibiotic.markers))
-    .map((hit) => ({ ...hit, category: classifyEvidence(hit) }));
-  const geneCount = evidence.filter((hit) => hit.category === "known_gene").length;
-  const mutationCount = evidence.filter((hit) => hit.category === "known_mutation").length;
-  const { probabilityOfFailure, highThreshold, lowThreshold, modelSource } = scoreEvidence(antibiotic, geneCount, mutationCount);
+  const extracted = extractAntibioticFeatures(antibiotic, context.hits, gate);
+  const evidence = extracted.evidence;
+  const modelFeatures = {
+    marker_count: extracted.markerCount,
+    mutation_count: extracted.mutationCount,
+    target_confirmed: extracted.targetConfirmed,
+  };
+  const { probabilityOfFailure, highThreshold, lowThreshold, modelSource } = scoreEvidence(antibiotic, modelFeatures);
 
   const scanDescription = context.readerMode === "amrfinder" ? "a completed AMRFinderPlus scan" : "the imported AMRFinderPlus result";
 

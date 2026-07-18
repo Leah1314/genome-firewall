@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 // Build data/features.csv from the downloaded cohort, its AMRFinderPlus TSVs,
 // and its Mash-derived groups -- in the exact schema scripts/train-baseline.js
-// expects: sample_id,group_id,antibiotic,label,marker_count,mutation_count.
+// expects: sample_id,group_id,antibiotic,label,marker_count,mutation_count,target_confirmed.
 //
-// Marker/mutation counting reuses src/config.js's ANTIBIOTICS regex patterns
-// and src/predictor.js's matchesMarker/classifyEvidence functions directly
-// (not a reimplementation), so the exact same evidence logic that produced
-// the training features is what runs at inference time in src/predictor.js.
+// Feature extraction reuses src/config.js's ANTIBIOTICS regex patterns and
+// src/features.js directly (not a reimplementation), so the exact same
+// evidence logic that produced the training features runs at inference time.
 //
 // Usage: node data/scripts/build_features.js
 
@@ -14,7 +13,7 @@ const { readFile, readdir, writeFile } = require("node:fs/promises");
 const path = require("node:path");
 const { ANTIBIOTICS } = require("../../src/config");
 const { parseAmrFinderTsv } = require("../../src/amrfinder");
-const { matchesMarker, classifyEvidence } = require("../../src/predictor");
+const { extractAntibioticFeatures } = require("../../src/features");
 
 const ROOT = path.join(__dirname, "..", "..");
 const MANIFEST_PATH = path.join(ROOT, "data", "cohort_manifest.json");
@@ -44,20 +43,12 @@ async function loadHits(genomeId) {
   }
 }
 
-function countEvidence(hits, antibiotic) {
-  const evidence = hits.filter((hit) => matchesMarker(hit, antibiotic.markers)).map(classifyEvidence);
-  return {
-    markerCount: evidence.filter((category) => category === "known_gene").length,
-    mutationCount: evidence.filter((category) => category === "known_mutation").length,
-  };
-}
-
 async function main() {
   const manifest = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
   const groups = await loadGroups();
   const scanned = new Set((await readdir(AMRFINDER_DIR)).filter((f) => f.endsWith(".tsv")).map((f) => f.replace(/\.tsv$/, "")));
 
-  const rows = ["sample_id,group_id,antibiotic,label,marker_count,mutation_count"];
+  const rows = ["sample_id,group_id,antibiotic,label,marker_count,mutation_count,target_confirmed"];
   let skippedNoScan = 0;
   let skippedNoGroup = 0;
   let written = 0;
@@ -75,8 +66,8 @@ async function main() {
       if (!antibiotic) continue;
       if (labelRow.resistant_phenotype !== "Resistant" && labelRow.resistant_phenotype !== "Susceptible") continue;
       const label = labelRow.resistant_phenotype === "Resistant" ? 1 : 0;
-      const { markerCount, mutationCount } = countEvidence(hits, antibiotic);
-      rows.push(`${genomeId},${groupId},${antibiotic.id},${label},${markerCount},${mutationCount}`);
+      const features = extractAntibioticFeatures(antibiotic, hits, { pass: true });
+      rows.push(`${genomeId},${groupId},${antibiotic.id},${label},${features.markerCount},${features.mutationCount},${features.targetConfirmed}`);
       written += 1;
     }
   }

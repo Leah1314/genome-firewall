@@ -68,6 +68,7 @@ function rawScore(row, model, features) {
 
 function trainLogistic(rows, features, iterations = 3000, learningRate = 0.04, l2 = 0.01) {
   const weights = Array(features.length).fill(0);
+  const trainable = features.map((feature) => new Set(rows.map((row) => Number(row[feature]) || 0)).size > 1);
   let intercept = 0;
   for (let step = 0; step < iterations; step += 1) {
     const gradient = Array(features.length).fill(0);
@@ -76,11 +77,13 @@ function trainLogistic(rows, features, iterations = 3000, learningRate = 0.04, l
       const values = features.map((feature) => Number(row[feature]) || 0);
       const error = sigmoid(intercept + values.reduce((sum, value, index) => sum + value * weights[index], 0)) - Number(row.label);
       interceptGradient += error;
-      values.forEach((value, index) => { gradient[index] += error * value; });
+      values.forEach((value, index) => {
+        if (trainable[index]) gradient[index] += error * value;
+      });
     }
     intercept -= learningRate * interceptGradient / rows.length;
     weights.forEach((weight, index) => {
-      weights[index] -= learningRate * (gradient[index] / rows.length + l2 * weight);
+      if (trainable[index]) weights[index] -= learningRate * (gradient[index] / rows.length + l2 * weight);
     });
   }
   return { intercept, weights: Object.fromEntries(features.map((feature, index) => [feature, weights[index]])) };

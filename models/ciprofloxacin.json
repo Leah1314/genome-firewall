@@ -1,10 +1,11 @@
 {
   "schemaVersion": 2,
   "antibiotic": "ciprofloxacin",
-  "trainedAt": "2026-07-18T22:39:55.391Z",
+  "trainedAt": "2026-07-18T22:51:01.731Z",
   "featureNames": [
     "marker_count",
-    "mutation_count"
+    "mutation_count",
+    "target_confirmed"
   ],
   "groupedSplit": {
     "trainGroups": 19,
@@ -15,7 +16,8 @@
     "intercept": -2.7119712399380282,
     "weights": {
       "marker_count": -0.20263862141622527,
-      "mutation_count": 1.9506914635325117
+      "mutation_count": 1.9506914635325117,
+      "target_confirmed": 0
     }
   },
   "thresholds": {
