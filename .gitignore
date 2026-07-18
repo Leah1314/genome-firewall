@@ -6,6 +6,11 @@ uploads/
 __pycache__/
 *.pyc
 
+# Secrets: OPENAI_API_KEY and friends live here, never in git.
+.env
+.env.*
+!.env.example
+
 # Bulk genome FASTA and raw AMRFinderPlus TSVs are regenerable via
 # data/scripts/*.py (see data/README.md) and too large to version.
 # The manifest, groups, features table, and trained models ARE committed.

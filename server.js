@@ -1,6 +1,7 @@
 const http = require("node:http");
 const { readFile } = require("node:fs/promises");
 const path = require("node:path");
+require("./src/load-env").loadEnvFile();
 const { analyzeGenome } = require("./src/pipeline");
 const { generateReportBrief, reportAgentConfigured } = require("./src/openai-report");
 const { generateEvidenceDiagram, imageAgentConfigured } = require("./src/openai-image");
