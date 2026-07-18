@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 2,
+  "antibiotic": "gentamicin",
+  "trainedAt": "2026-07-18T20:48:39.174Z",
+  "featureNames": [
+    "marker_count",
+    "mutation_count"
+  ],
+  "groupedSplit": {
+    "trainGroups": 20,
+    "calibrationGroups": 7,
+    "testGroups": 7
+  },
+  "model": {
+    "intercept": -2.543943108225203,
+    "weights": {
+      "marker_count": 3.3676658043099996,
+      "mutation_count": 0
+    }
+  },
+  "thresholds": {
+    "highThreshold": 0.67,
+    "lowThreshold": 0.1,
+    "note": "Thresholds chosen for >=85% precision on the calibration split."
+  },
+  "validation": {
+    "sampleCount": 23,
+    "calledCount": 23,
+    "noCallRate": 0,
+    "calledAccuracy": 1,
+    "balancedAccuracy": 1,
+    "resistantRecall": 1,
+    "susceptibleRecall": 1,
+    "f1Resistant": 1,
+    "auRoc": 1,
+    "prAuc": 1,
+    "brierScore": 0.032,
+    "reliabilityBins": [
+      {
+        "rangeLow": 0,
+        "rangeHigh": 0.2,
+        "count": 15,
+        "meanPredicted": 0.073,
+        "empiricalRate": 0
+      },
+      {
+        "rangeLow": 0.2,
+        "rangeHigh": 0.4,
+        "count": 0,
+        "meanPredicted": null,
+        "empiricalRate": null
+      },
+      {
+        "rangeLow": 0.4,
+        "rangeHigh": 0.6,
+        "count": 0,
+        "meanPredicted": null,
+        "empiricalRate": null
+      },
+      {
+        "rangeLow": 0.6,
+        "rangeHigh": 0.8,
+        "count": 7,
+        "meanPredicted": 0.695,
+        "empiricalRate": 1
+      },
+      {
+        "rangeLow": 0.8,
+        "rangeHigh": 1,
+        "count": 1,
+        "meanPredicted": 0.985,
+        "empiricalRate": 1
+      }
+    ]
+  }
+}

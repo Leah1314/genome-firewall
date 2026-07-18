@@ -5,7 +5,12 @@
   "description": "Defensive antibiotic failure early-warning prototype for the Hack-Nation Genome Firewall challenge.",
   "scripts": {
     "start": "node server.js",
-    "check": "node --check server.js && node --check scripts/train-baseline.js && node --test"
+    "check": "node --check server.js && node --check scripts/train-baseline.js && node --test",
+    "data:fetch": "python3 data/scripts/fetch_bvbrc_cohort.py",
+    "data:amrfinder": "bash data/scripts/run_amrfinder_batch.sh",
+    "data:groups": "python3 data/scripts/build_groups.py",
+    "data:features": "node data/scripts/build_features.js",
+    "data:train": "node scripts/train-baseline.js data/features.csv ciprofloxacin && node scripts/train-baseline.js data/features.csv ceftriaxone && node scripts/train-baseline.js data/features.csv gentamicin"
   },
   "engines": {
     "node": ">=20"

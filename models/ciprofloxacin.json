@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 2,
+  "antibiotic": "ciprofloxacin",
+  "trainedAt": "2026-07-18T20:48:38.956Z",
+  "featureNames": [
+    "marker_count",
+    "mutation_count"
+  ],
+  "groupedSplit": {
+    "trainGroups": 19,
+    "calibrationGroups": 7,
+    "testGroups": 7
+  },
+  "model": {
+    "intercept": -2.7119712399380282,
+    "weights": {
+      "marker_count": -0.20263862141622527,
+      "mutation_count": 1.9506914635325117
+    }
+  },
+  "thresholds": {
+    "highThreshold": 0.67,
+    "lowThreshold": 0.1,
+    "note": "Thresholds chosen for >=85% precision on the calibration split."
+  },
+  "validation": {
+    "sampleCount": 24,
+    "calledCount": 20,
+    "noCallRate": 0.167,
+    "calledAccuracy": 1,
+    "balancedAccuracy": 1,
+    "resistantRecall": 1,
+    "susceptibleRecall": 1,
+    "f1Resistant": 1,
+    "auRoc": 0.977,
+    "prAuc": 0.966,
+    "brierScore": 0.04,
+    "reliabilityBins": [
+      {
+        "rangeLow": 0,
+        "rangeHigh": 0.2,
+        "count": 13,
+        "meanPredicted": 0.06,
+        "empiricalRate": 0
+      },
+      {
+        "rangeLow": 0.2,
+        "rangeHigh": 0.4,
+        "count": 4,
+        "meanPredicted": 0.308,
+        "empiricalRate": 0.25
+      },
+      {
+        "rangeLow": 0.4,
+        "rangeHigh": 0.6,
+        "count": 0,
+        "meanPredicted": null,
+        "empiricalRate": null
+      },
+      {
+        "rangeLow": 0.6,
+        "rangeHigh": 0.8,
+        "count": 1,
+        "meanPredicted": 0.728,
+        "empiricalRate": 1
+      },
+      {
+        "rangeLow": 0.8,
+        "rangeHigh": 1,
+        "count": 6,
+        "meanPredicted": 0.956,
+        "empiricalRate": 1
+      }
+    ]
+  }
+}

@@ -34,6 +34,14 @@ function callClass(decision) {
   return { likely_to_fail: "fail", likely_to_work: "work", no_call: "no-call" }[decision] || "no-call";
 }
 
+function evidenceCategoryLabel(category) {
+  return {
+    known_gene_or_mutation: "Evidence: known resistance gene or DNA change",
+    statistical_association_only: "Evidence: statistical association only — not a confirmed biological cause",
+    no_known_signal: "Evidence: no known resistance signal detected",
+  }[category] || category;
+}
+
 function render(result) {
   currentAnalysis = result;
   reportAgentOutput.hidden = true;
@@ -66,7 +74,13 @@ function render(result) {
         </div>
         <div class="evidence-copy">
           ${escapeHtml(prediction.explanation)}
+          <div class="evidence-category">${escapeHtml(evidenceCategoryLabel(prediction.evidenceCategory))}</div>
           <div class="evidence-tags">${tags}</div>
+          <div class="evidence-image-block">
+            <button class="text-button evidence-image-button" type="button" data-antibiotic-id="${escapeHtml(prediction.antibioticId)}">Generate evidence diagram</button>
+            <p class="evidence-image-status" hidden></p>
+            <img class="evidence-image-output" alt="Schematic evidence diagram for ${escapeHtml(prediction.antibiotic)}" hidden />
+          </div>
         </div>
       </article>`;
   }).join("");
@@ -153,6 +167,87 @@ reportAgentButton.addEventListener("click", async () => {
   }
 });
 
+function renderModelInfo(info) {
+  const antibioticLabels = Object.fromEntries(info.coverage.antibiotics.map((a) => [a.id, a.label]));
+  document.querySelector("#coverage-statement").textContent =
+    `Covers: ${info.coverage.species.join(", ")} × ${info.coverage.antibiotics.map((a) => a.label).join(", ")}. ${info.coverage.statement}`;
+
+  document.querySelector("#model-grid").innerHTML = info.models.map((model) => {
+    const label = antibioticLabels[model.antibioticId] || model.antibioticId;
+    if (!model.trained) {
+      return `
+        <article class="model-card model-card-untrained">
+          <strong>${escapeHtml(label)}</strong>
+          <p>Not yet trained on real data — using the illustrative placeholder weights in <code>src/config.js</code> until <code>models/${escapeHtml(model.antibioticId)}.json</code> exists.</p>
+        </article>`;
+    }
+    const v = model.validation;
+    const metrics = [
+      ["Balanced accuracy", v.balancedAccuracy],
+      ["Resistant recall", v.resistantRecall],
+      ["Susceptible recall", v.susceptibleRecall],
+      ["F1 (resistant)", v.f1Resistant],
+      ["AUROC", v.auRoc],
+      ["PR-AUC", v.prAuc],
+      ["Brier score", v.brierScore],
+      ["No-call rate", v.noCallRate],
+    ];
+    return `
+      <article class="model-card">
+        <div class="model-card-head">
+          <strong>${escapeHtml(label)}</strong>
+          <span class="model-source-tag">trained_baseline</span>
+        </div>
+        <p class="model-split">Grouped split — train: ${model.groupedSplit.trainGroups} groups · calibration: ${model.groupedSplit.calibrationGroups} groups · held-out test: ${model.groupedSplit.testGroups} groups (${v.sampleCount} rows, ${v.calledCount} called)</p>
+        <div class="model-metric-grid">
+          ${metrics.map(([metricLabel, value]) => `
+            <div><span>${escapeHtml(metricLabel)}</span><strong>${value === null || value === undefined ? "—" : value}</strong></div>
+          `).join("")}
+        </div>
+        <p class="model-note">Metrics computed on the held-out test groups only — never used for training or threshold calibration. Trained ${new Date(model.trainedAt).toLocaleString()}.</p>
+      </article>`;
+  }).join("");
+}
+
+let imageAgentReady = false;
+
+document.querySelector("#prediction-list").addEventListener("click", async (event) => {
+  const button = event.target.closest(".evidence-image-button");
+  if (!button || !currentAnalysis) return;
+  const block = button.closest(".evidence-image-block");
+  const status = block.querySelector(".evidence-image-status");
+  const output = block.querySelector(".evidence-image-output");
+  status.hidden = false;
+  status.textContent = imageAgentReady
+    ? "Generating a schematic evidence diagram from audited results…"
+    : "Optional: set OPENAI_API_KEY to enable evidence diagrams.";
+  if (!imageAgentReady) return;
+  button.disabled = true;
+  try {
+    const response = await fetch("/api/evidence-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ analysis: currentAnalysis, antibioticId: button.dataset.antibioticId }),
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.error || "Diagram generation failed.");
+    output.src = payload.image;
+    output.hidden = false;
+    status.textContent = `Generated with ${payload.model}; diagram only, classifier output unchanged.`;
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    button.disabled = false;
+  }
+});
+
+fetch("/api/model-info")
+  .then((response) => response.json())
+  .then(renderModelInfo)
+  .catch(() => {
+    document.querySelector("#coverage-statement").textContent = "Model performance data unavailable.";
+  });
+
 fetch("/api/health")
   .then((response) => response.json())
   .then((health) => {
@@ -160,6 +255,7 @@ fetch("/api/health")
     reportAgentStatus.textContent = health.reportAgentConfigured
       ? "OpenAI Report Agent is ready. It receives audited JSON, never raw sequence."
       : "Optional: set OPENAI_API_KEY to enable the bounded reviewer brief.";
+    imageAgentReady = Boolean(health.imageAgentConfigured);
   })
   .catch(() => {
     reportAgentButton.disabled = true;

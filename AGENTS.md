@@ -16,11 +16,11 @@ The agents are bounded software roles in one deterministic pipeline. The languag
 
 **Input:** normalized AMR hits, genome QC, supported-species context, and one model artifact per antibiotic.
 
-**Responsibilities:** build drug-specific features, calculate failure probability, and keep each antibiotic model independently replaceable.
+**Responsibilities:** build drug-specific features, calculate failure probability, and keep each antibiotic model independently replaceable. At startup it loads `models/<antibiotic>.json` -- trained on a real BV-BRC + AMRFinderPlus + Mash cohort, see `data/README.md` -- when present, and falls back to the illustrative placeholder weights in `src/config.js` otherwise. Every prediction reports which one produced it (`modelSource`).
 
 **Hard stop:** a probability alone cannot bypass evidence or target gates.
 
-**Implementation:** `src/config.js` and `src/predictor.js`.
+**Implementation:** `src/config.js` and `src/predictor.js`. Training pipeline: `data/scripts/`, `scripts/train-baseline.js`.
 
 ## 3. Evidence Auditor Agent
 
@@ -40,7 +40,17 @@ The agents are bounded software roles in one deterministic pipeline. The languag
 
 **Hard stop:** it cannot add a drug recommendation, dosage, organism modification, or claim not present in the structured evidence.
 
-**Implementation:** `public/app.js`. An OpenAI explanation call can later be inserted behind a strict JSON schema, but should never change the classifier output.
+**Implementation:** `public/app.js` and `src/openai-report.js` (bounded text summary via the OpenAI Responses API, JSON-in only).
+
+## 5. Multimodal Evidence Diagram Agent (optional)
+
+**Input:** one audited prediction (drug, decision, target, evidence gene/mutation names, confidence, evidence category) only -- never raw sequence, never free-form model output folded back in.
+
+**Responsibilities:** render a schematic infographic (detected evidence -> molecular target -> decision + confidence) via OpenAI image generation, so the demo can show, not just state, the evidence chain behind a call.
+
+**Hard stop:** the prompt is template-built from already-audited fields and explicitly forbids photorealistic organism imagery and any depiction of gene editing, organism engineering, or synthesis -- it renders a diagram of an existing call, never a new one, and never anything that could read as organism design.
+
+**Implementation:** `src/openai-image.js`, wired through `POST /api/evidence-image` in `server.js` and the "Generate evidence diagram" button in `public/app.js`. Optional: requires `OPENAI_API_KEY`, same as the text Report Agent.
 
 ## Orchestration contract
 
