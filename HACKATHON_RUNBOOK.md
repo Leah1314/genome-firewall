@@ -4,7 +4,7 @@
 
 1. **Freeze scope:** *Escherichia coli* plus ciprofloxacin, ceftriaxone, and gentamicin. Do not expand until the complete pipeline works.
 2. **Secure challenge data:** export organizer-pinned BV-BRC laboratory AMR labels and sequence-homology group IDs. Keep a data manifest with license, date, filters, and label mapping.
-3. **Generate features:** run one pinned AMRFinderPlus version/database across every assembly. Convert hits into a sample-by-feature matrix and add explicit target-locus detection.
+3. **Generate features:** create `environment-amrfinder.yml`, record the AMRFinderPlus software and database versions, and run the same environment across every assembly. Convert hits and matching GFF3 target annotations into a sample-by-feature matrix.
 4. **Prevent leakage:** cluster genomes by sequence similarity or use organizer-provided relatedness groups. Split by group before any fitting or calibration.
 5. **Train per drug:** regularized logistic regression first. Only add DNABERT-2, HyenaDNA, or ESM-2 embeddings if they improve held-out grouped performance.
 6. **Calibrate and abstain:** fit probability calibration on validation groups, choose two thresholds for resistant/susceptible calls, and return no-call between them.
@@ -32,10 +32,23 @@
 
 1. Install and pin AMRFinderPlus so raw FASTA works on the demo machine.
 2. Obtain the organizer-pinned BV-BRC cohort and train the first genuinely measured model.
-3. Add explicit target-locus detection; the current species + QC proxy must stay visibly labeled until replaced.
+3. Replace the baseline annotation matcher with a pinned annotation pipeline and verify target-locus recall on held-out assemblies.
 4. Add an OpenAI structured explanation endpoint for plain-language summaries and optional image/report interpretation. It must consume audited JSON and cannot alter decisions.
 5. Containerize and deploy only after local FASTA → report works twice on held-out examples.
 
 ## Pitch sentence
 
 “Genome Firewall is a defensive early-warning layer that predicts which antibiotics may fail from a bacterial genome, shows the evidence behind every call, and refuses to guess when the genome or model is uncertain.”
+
+## Reproducible commands
+
+```bash
+conda env create -f environment-amrfinder.yml
+conda activate genome-firewall-amr
+npm run amr:check
+npm run features:generate -- data/manifest.tsv data/generated/features.csv
+node scripts/train-baseline.js data/generated/features.csv ciprofloxacin
+npm run check
+```
+
+Do not report model-quality numbers from the bundled example. Report only metrics generated from an organizer-approved labeled cohort, and retain the generated model card with the submission.

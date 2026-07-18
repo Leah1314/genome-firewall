@@ -55,6 +55,15 @@
             <span class="add-symbol" aria-hidden="true">+</span>
           </label>
 
+          <label class="field-label" for="gff-file">
+            Genome annotation <span>required for likely-to-work calls</span>
+          </label>
+          <label class="compact-file" for="gff-file">
+            <input id="gff-file" type="file" accept=".gff,.gff3,.txt" />
+            <span id="gff-name">Attach GFF3 to confirm molecular target loci</span>
+            <span class="add-symbol" aria-hidden="true">+</span>
+          </label>
+
           <div class="form-actions">
             <button class="primary-button" type="submit" id="analyze-button">Run analysis</button>
             <button class="text-button" type="button" id="demo-button">Load example case</button>
@@ -117,7 +126,7 @@
 
     <footer>
       <span>Genome Firewall / OpenAI × Hack-Nation</span>
-      <span>Defensive AMR decision support prototype</span>
+      <span>Defensive AMR research decision support</span>
     </footer>
     <script src="./static-engine.js"></script>
     <script src="./app.js"></script>

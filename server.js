@@ -52,7 +52,15 @@ async function demoAnalysis() {
     "demo_1\tcontig_1\t100\t900\t+\tblaCTX-M-15\tExtended-spectrum beta-lactamase\tcore\tAMR\tAMR\tbeta-lactam\tcephalosporin\tALLELE\t800\t800\t100\t99.8\t800\tDEMO\tCTX-M family beta-lactamase\t\t",
     "demo_2\tcontig_1\t1200\t1600\t+\tqnrS1\tQuinolone resistance protein QnrS1\tcore\tAMR\tAMR\tquinolone\tfluoroquinolone\tALLELE\t400\t400\t100\t99.1\t400\tDEMO\tQnrS1\t\t",
   ].join("\n");
-  return analyzeGenome({ fastaText, amrTsv, species: "Escherichia coli", forceImported: true });
+  const gffText = [
+    "##gff-version 3",
+    "contig_1\tdemo\tgene\t2000\t4500\t.\t+\t.\tID=gyrA;gene=gyrA;product=DNA gyrase subunit A",
+    "contig_1\tdemo\tgene\t5000\t7200\t.\t+\t.\tID=parC;gene=parC;product=Topoisomerase IV subunit A",
+    "contig_1\tdemo\tgene\t8000\t9800\t.\t+\t.\tID=ftsI;gene=ftsI;product=Penicillin-binding protein 3",
+    "contig_1\tdemo\tgene\t11000\t11400\t.\t+\t.\tID=rpsL;gene=rpsL;product=30S ribosomal protein S12",
+    "contig_1\tdemo\trRNA\t12000\t13500\t.\t+\t.\tID=rrsA;gene=rrsA;product=16S ribosomal RNA",
+  ].join("\n");
+  return analyzeGenome({ fastaText, amrTsv, gffText, species: "Escherichia coli", forceImported: true });
 }
 
 async function serveStatic(request, response) {
@@ -90,6 +98,7 @@ const server = http.createServer(async (request, response) => {
       const result = await analyzeGenome({
         fastaText: body.fastaText,
         amrTsv: body.amrTsv || "",
+        gffText: body.gffText || "",
         species: body.species || "Escherichia coli",
       });
       return json(response, 200, result);

@@ -4,6 +4,10 @@
       id: "ciprofloxacin",
       label: "Ciprofloxacin",
       target: "DNA gyrase / topoisomerase IV",
+      targetRequirements: [
+        { label: "gyrA", patterns: [/\bgyrA\b/i, /DNA gyrase subunit A/i] },
+        { label: "parC", patterns: [/\bparC\b/i, /topoisomerase IV subunit A/i] },
+      ],
       markers: [/^qnr/i, /gyrA/i, /parC/i, /aac\(6['’-]?\)-Ib-cr/i],
       intercept: -2.2,
       markerWeight: 3.1,
@@ -13,6 +17,9 @@
       id: "ceftriaxone",
       label: "Ceftriaxone",
       target: "Penicillin-binding proteins",
+      targetRequirements: [
+        { label: "ftsI / PBP3", patterns: [/\bftsI\b/i, /penicillin[- ]binding protein 3/i, /\bPBP3\b/i] },
+      ],
       markers: [/blaCTX-M/i, /blaCMY/i, /blaSHV/i, /ESBL/i],
       intercept: -2,
       markerWeight: 3,
@@ -22,6 +29,10 @@
       id: "gentamicin",
       label: "Gentamicin",
       target: "30S ribosomal subunit",
+      targetRequirements: [
+        { label: "rpsL", patterns: [/\brpsL\b/i, /30S ribosomal protein S12/i] },
+        { label: "16S rRNA", patterns: [/\brrs[A-Z0-9]*\b/i, /16S ribosomal RNA/i] },
+      ],
       markers: [/aac\(3/i, /aac\(6/i, /ant\(2/i, /aph\(2/i, /16S/i],
       intercept: -2.1,
       markerWeight: 2.95,
@@ -121,22 +132,72 @@
     }).filter((hit) => hit.gene || hit.name);
   }
 
-  function targetGate(genome) {
+  function parseGffTargets(text) {
+    const genes = [];
+    for (const line of String(text || "").split(/\r?\n/)) {
+      if (!line.trim() || line.startsWith("#")) continue;
+      const columns = line.split("\t");
+      if (columns.length < 9 || !/gene|cds|rrna/i.test(columns[2])) continue;
+      const attributes = Object.fromEntries(columns[8].split(";").map((part) => {
+        const [key, ...rest] = part.trim().split("=");
+        return [String(key || "").toLowerCase(), rest.join("=")];
+      }));
+      genes.push({
+        symbol: attributes.gene || attributes.name || attributes.locus_tag || attributes.id || "",
+        product: attributes.product || attributes.description || "",
+        seqid: columns[0],
+        source: columns[1] || "GFF annotation",
+        type: columns[2],
+      });
+    }
+    return genes;
+  }
+
+  function buildTargetEvidence(gffText) {
+    const annotations = parseGffTargets(gffText);
+    return Object.fromEntries(ANTIBIOTICS.map((antibiotic) => {
+      const matched = [];
+      const missing = [];
+      for (const requirement of antibiotic.targetRequirements) {
+        const hit = annotations.find((gene) => requirement.patterns.some((pattern) => pattern.test(`${gene.symbol} ${gene.product}`)));
+        if (hit) matched.push({ requirement: requirement.label, ...hit });
+        else missing.push(requirement.label);
+      }
+      const assessed = Boolean(String(gffText || "").trim());
+      return [antibiotic.id, {
+        assessed,
+        pass: assessed && missing.length === 0,
+        status: !assessed ? "not_assessed" : missing.length ? "target_incomplete" : "target_confirmed",
+        matched,
+        missing,
+        rationale: !assessed
+          ? "No genome annotation was supplied, so molecular target presence was not assessed."
+          : missing.length
+            ? `Required target evidence is missing: ${missing.join(", ")}.`
+            : `Required target loci were detected in the supplied annotation: ${matched.map((item) => item.requirement).join(", ")}.`,
+      }];
+    }));
+  }
+
+  function targetGate(genome, targetEvidence, antibioticId) {
     if (genome.qc === "fail") {
       return { pass: false, status: "insufficient_genome", rationale: "Genome quality is too low to establish target context." };
     }
     if (genome.totalBases < 3_500_000 || genome.totalBases > 6_500_000) {
       return { pass: false, status: "size_out_of_range", rationale: "Assembly size is outside the supported species range." };
     }
-    return {
-      pass: true,
-      status: "species_qc_proxy",
-      rationale: "Target context is provisionally supported by species identity and assembly QC; confirm target loci in the production pipeline.",
+    return targetEvidence?.[antibioticId] || {
+      pass: false,
+      assessed: false,
+      status: "not_assessed",
+      matched: [],
+      missing: [],
+      rationale: "No genome annotation was supplied, so molecular target presence was not assessed.",
     };
   }
 
   function predict(antibiotic, context) {
-    const gate = targetGate(context.genome);
+    const gate = targetGate(context.genome, context.targetEvidence, antibiotic.id);
     const evidence = context.hits.filter((hit) => {
       const text = `${hit.gene || ""} ${hit.name || ""} ${hit.subtype || ""}`;
       return antibiotic.markers.some((pattern) => pattern.test(text));
@@ -152,7 +213,7 @@
     const probabilityOfFailure = Number((1 / (1 + Math.exp(-score))).toFixed(3));
     let decision = "no_call";
     let explanation = gate.rationale;
-    if (gate.pass && evidence.length && probabilityOfFailure >= 0.67) {
+    if (context.genome.qc !== "fail" && evidence.length && probabilityOfFailure >= 0.67) {
       decision = "likely_to_fail";
       explanation = "Known AMR evidence raises the estimated probability of antibiotic failure.";
     } else if (gate.pass && context.readerMode === "imported_amrfinder" && probabilityOfFailure <= 0.33) {
@@ -176,8 +237,8 @@
     };
   }
 
-  function buildResult(genome, hits, readerMode) {
-    const context = { genome, hits, readerMode };
+  function buildResult(genome, hits, readerMode, targetEvidence = {}) {
+    const context = { genome, hits, readerMode, targetEvidence };
     const predictions = ANTIBIOTICS.map((antibiotic) => predict(antibiotic, context));
     const flags = [];
     if (genome.qc !== "pass") {
@@ -190,7 +251,11 @@
       analysisId: `gf_web_${Date.now().toString(36)}`,
       createdAt: new Date().toISOString(),
       species: "Escherichia coli",
-      reader: { mode: readerMode, hitCount: hits.length },
+      reader: {
+        mode: readerMode,
+        hitCount: hits.length,
+        targetAnnotation: Object.values(targetEvidence).some((item) => item.assessed) ? "imported_gff" : "not_supplied",
+      },
       genome,
       predictions,
       audit: {
@@ -202,10 +267,15 @@
     };
   }
 
-  function analyze({ fastaText, amrTsv = "" }) {
+  function analyze({ fastaText, amrTsv = "", gffText = "" }) {
     const genome = summarizeGenome(parseFasta(fastaText));
     const hits = amrTsv.trim() ? parseAmrFinderTsv(amrTsv) : [];
-    return buildResult(genome, hits, hits.length || amrTsv.trim() ? "imported_amrfinder" : "fasta_only");
+    return buildResult(
+      genome,
+      hits,
+      hits.length || amrTsv.trim() ? "imported_amrfinder" : "fasta_only",
+      buildTargetEvidence(gffText),
+    );
   }
 
   function demo() {
@@ -213,7 +283,19 @@
       { id: "demo_1", gene: "blaCTX-M-15", name: "Extended-spectrum beta-lactamase", subtype: "AMR", method: "ALLELE", identity: 99.8, coverage: 100, source: "AMRFinderPlus" },
       { id: "demo_2", gene: "qnrS1", name: "Quinolone resistance protein QnrS1", subtype: "AMR", method: "ALLELE", identity: 99.1, coverage: 100, source: "AMRFinderPlus" },
     ];
-    return buildResult({ contigs: 1, totalBases: 4_500_000, n50: 4_500_000, gcPercent: 50, ambiguousPercent: 0, qc: "pass" }, hits, "imported_amrfinder");
+    const gffText = [
+      "contig_1\tdemo\tgene\t2000\t4500\t.\t+\t.\tID=gyrA;gene=gyrA;product=DNA gyrase subunit A",
+      "contig_1\tdemo\tgene\t5000\t7200\t.\t+\t.\tID=parC;gene=parC;product=Topoisomerase IV subunit A",
+      "contig_1\tdemo\tgene\t8000\t9800\t.\t+\t.\tID=ftsI;gene=ftsI;product=Penicillin-binding protein 3",
+      "contig_1\tdemo\tgene\t11000\t11400\t.\t+\t.\tID=rpsL;gene=rpsL;product=30S ribosomal protein S12",
+      "contig_1\tdemo\trRNA\t12000\t13500\t.\t+\t.\tID=rrsA;gene=rrsA;product=16S ribosomal RNA",
+    ].join("\n");
+    return buildResult(
+      { contigs: 1, totalBases: 4_500_000, n50: 4_500_000, gcPercent: 50, ambiguousPercent: 0, qc: "pass" },
+      hits,
+      "imported_amrfinder",
+      buildTargetEvidence(gffText),
+    );
   }
 
   global.GenomeFirewallEngine = { analyze, demo };
