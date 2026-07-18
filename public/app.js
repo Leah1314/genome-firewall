@@ -241,11 +241,12 @@ function renderHeldOutCases(payload) {
     const rows = antibiotic.cases.map((item) => {
       const correctness = item.correct === null ? "abstained" : item.correct ? "correct" : "wrong";
       const correctnessLabel = item.correct === null ? "No-call" : item.correct ? "Matched lab result" : "Missed lab result";
+      const featureSummary = Object.entries(item.features).map(([name, value]) => `${name.replaceAll("_", " ")} ${value}`).join(" · ");
       return `
         <div class="held-out-case-row">
           <div class="held-out-case-id">
             <strong>${escapeHtml(item.sampleId)}</strong>
-            <small>${escapeHtml(item.groupId)} · markers ${item.markerCount} · mutations ${item.mutationCount}</small>
+            <small>${escapeHtml(item.groupId)} · ${escapeHtml(featureSummary)}</small>
           </div>
           <span class="call ${callClass(item.decision)}">${callLabel(item.decision)}</span>
           <span class="held-out-true-label">Lab result: ${item.trueLabel}</span>

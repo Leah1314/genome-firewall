@@ -22,9 +22,10 @@ async function loadTrainedModel(antibioticId, modelsDir) {
 }
 
 function scoreRow(row, model) {
-  const rawScore = model.model.intercept
-    + (model.model.weights.marker_count || 0) * Number(row.marker_count || 0)
-    + (model.model.weights.mutation_count || 0) * Number(row.mutation_count || 0);
+  const rawScore = model.featureNames.reduce(
+    (sum, feature) => sum + (model.model.weights[feature] || 0) * Number(row[feature] || 0),
+    model.model.intercept,
+  );
   const probabilityOfFailure = Number(sigmoid(rawScore).toFixed(3));
   const decision = probabilityOfFailure >= model.thresholds.highThreshold
     ? "likely_to_fail"
@@ -36,8 +37,7 @@ function scoreRow(row, model) {
   return {
     sampleId: row.sample_id,
     groupId: row.group_id,
-    markerCount: Number(row.marker_count || 0),
-    mutationCount: Number(row.mutation_count || 0),
+    features: Object.fromEntries(model.featureNames.map((feature) => [feature, Number(row[feature] || 0)])),
     trueLabel,
     probabilityOfFailure,
     decision,
