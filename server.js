@@ -5,6 +5,7 @@ const { analyzeGenome } = require("./src/pipeline");
 const { generateReportBrief, reportAgentConfigured } = require("./src/openai-report");
 const { generateEvidenceDiagram, imageAgentConfigured } = require("./src/openai-image");
 const { ANTIBIOTICS, SUPPORTED_SPECIES } = require("./src/config");
+const { heldOutCases } = require("./src/demo-cases");
 
 const PORT = Number(process.env.PORT || 4180);
 const PUBLIC_DIR = path.join(__dirname, "public");
@@ -125,6 +126,9 @@ const server = http.createServer(async (request, response) => {
     }
     if (request.method === "GET" && request.url === "/api/model-info") {
       return json(response, 200, await modelInfoResponse());
+    }
+    if (request.method === "GET" && request.url === "/api/held-out-cases") {
+      return json(response, 200, { antibiotics: await heldOutCases() });
     }
     if (request.method === "POST" && request.url === "/api/analyze") {
       const body = await readJsonBody(request);

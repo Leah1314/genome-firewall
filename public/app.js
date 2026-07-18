@@ -82,7 +82,7 @@ function render(result) {
         <div class="evidence-copy">
           ${escapeHtml(prediction.explanation)}
           <div class="evidence-category">${escapeHtml(evidenceCategoryLabel(prediction.evidenceCategory))}</div>
-          <div class="evidence-tags">${tags}</div>
+          <div class="evidence-tags">${evidenceTags}${targetTags}</div>
           <div class="evidence-image-block">
             <button class="text-button evidence-image-button" type="button" data-antibiotic-id="${escapeHtml(prediction.antibioticId)}">Generate evidence diagram</button>
             <p class="evidence-image-status" hidden></p>
@@ -229,6 +229,37 @@ function renderModelInfo(info) {
   }).join("");
 }
 
+function renderHeldOutCases(payload) {
+  document.querySelector("#held-out-grid").innerHTML = payload.antibiotics.map((antibiotic) => {
+    if (!antibiotic.available) {
+      return `
+        <article class="held-out-card held-out-card-empty">
+          <strong>${escapeHtml(antibiotic.antibioticLabel)}</strong>
+          <p>No trained model or held-out split available yet.</p>
+        </article>`;
+    }
+    const rows = antibiotic.cases.map((item) => {
+      const correctness = item.correct === null ? "abstained" : item.correct ? "correct" : "wrong";
+      const correctnessLabel = item.correct === null ? "No-call" : item.correct ? "Matched lab result" : "Missed lab result";
+      return `
+        <div class="held-out-case-row">
+          <div class="held-out-case-id">
+            <strong>${escapeHtml(item.sampleId)}</strong>
+            <small>${escapeHtml(item.groupId)} · markers ${item.markerCount} · mutations ${item.mutationCount}</small>
+          </div>
+          <span class="call ${callClass(item.decision)}">${callLabel(item.decision)}</span>
+          <span class="held-out-true-label">Lab result: ${item.trueLabel}</span>
+          <span class="held-out-correctness held-out-correctness-${correctness}">${correctnessLabel}</span>
+        </div>`;
+    }).join("");
+    return `
+      <article class="held-out-card">
+        <strong>${escapeHtml(antibiotic.antibioticLabel)}</strong>
+        <div class="held-out-case-list">${rows}</div>
+      </article>`;
+  }).join("");
+}
+
 let imageAgentReady = false;
 
 document.querySelector("#prediction-list").addEventListener("click", async (event) => {
@@ -266,6 +297,13 @@ fetch("/api/model-info")
   .then(renderModelInfo)
   .catch(() => {
     document.querySelector("#coverage-statement").textContent = "Model performance data unavailable.";
+  });
+
+fetch("/api/held-out-cases")
+  .then((response) => response.json())
+  .then(renderHeldOutCases)
+  .catch(() => {
+    document.querySelector("#held-out-grid").innerHTML = "<p>Held-out case data unavailable.</p>";
   });
 
 fetch("/api/health")

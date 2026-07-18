@@ -119,6 +119,23 @@ h1 { max-width: 760px; margin: 0; font-size: clamp(46px, 6vw, 84px); line-height
 .evidence-image-output { max-width: 100%; margin-top: 10px; border: 1px solid var(--line); border-radius: 4px; }
 .evidence-image-output:not([hidden]) { display: block; }
 
+.held-out-cases { padding: 56px 7vw; border-bottom: 1px solid var(--line); background: var(--surface); }
+.held-out-grid { display: grid; gap: 18px; }
+.held-out-card { padding: 22px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.held-out-card > strong { display: block; margin-bottom: 14px; font-size: 15px; }
+.held-out-card-empty { color: var(--muted); }
+.held-out-case-list { display: grid; gap: 10px; }
+.held-out-case-row { display: grid; grid-template-columns: minmax(160px, 1fr) auto minmax(120px, auto) minmax(120px, auto); gap: 14px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); font-size: 12px; }
+.held-out-case-row:first-child { border-top: 0; }
+.held-out-case-id { display: grid; gap: 3px; }
+.held-out-case-id strong { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+.held-out-case-id small { color: var(--muted); }
+.held-out-true-label { color: var(--muted); text-transform: capitalize; }
+.held-out-correctness { font-weight: 700; }
+.held-out-correctness-correct { color: var(--green-dark); }
+.held-out-correctness-wrong { color: var(--red); }
+.held-out-correctness-abstained { color: var(--amber); }
+
 .results { padding: 74px 7vw 88px; background: #eef1eb; }
 .results-header { align-items: flex-end; }
 .analysis-meta { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; text-align: right; }

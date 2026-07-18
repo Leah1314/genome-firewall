@@ -90,6 +90,17 @@
         <div class="model-grid" id="model-grid"></div>
       </section>
 
+      <section class="held-out-cases" aria-labelledby="held-out-title">
+        <div class="results-header">
+          <div>
+            <p class="eyebrow">Demo, not cherry-picked</p>
+            <h2 id="held-out-title">Every held-out test case, drug by drug</h2>
+          </div>
+        </div>
+        <p class="coverage-statement">These are every genome in the same held-out test groups <code>scripts/train-baseline.js</code> reports metrics on — none were used for training or threshold calibration. No-call rows show the system abstaining rather than guessing.</p>
+        <div class="held-out-grid" id="held-out-grid"></div>
+      </section>
+
       <section class="results" id="results" hidden aria-live="polite">
         <div class="results-header">
           <div>
