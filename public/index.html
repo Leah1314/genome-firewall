@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Defensive antibiotic failure early-warning research prototype." />
+    <title>Genome Firewall</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Genome Firewall home">
+        <span class="brand-mark" aria-hidden="true">GF</span>
+        <span>Genome Firewall</span>
+      </a>
+      <div class="status"><span class="status-dot"></span> Defensive mode</div>
+    </header>
+
+    <main>
+      <section class="workspace" aria-labelledby="workspace-title">
+        <div class="workspace-copy">
+          <p class="eyebrow">Antibiotic failure early warning</p>
+          <h1 id="workspace-title">Read the genome.<br />Surface the risk.</h1>
+          <p class="lede">Analyze one <em>Escherichia coli</em> assembly for traceable resistance evidence before standard susceptibility results arrive.</p>
+          <div class="boundary">
+            <strong>Decision boundary</strong>
+            <span>Research support only. Every result requires laboratory confirmation and qualified clinical review.</span>
+          </div>
+        </div>
+
+        <form class="upload-panel" id="analysis-form">
+          <div class="panel-heading">
+            <div>
+              <p class="step-label">New analysis</p>
+              <h2>Genome input</h2>
+            </div>
+            <span class="species-chip">E. coli</span>
+          </div>
+
+          <label class="file-drop" for="fasta-file" id="fasta-drop">
+            <input id="fasta-file" type="file" accept=".fa,.fna,.fasta,.txt" required />
+            <span class="file-icon" aria-hidden="true">01</span>
+            <span class="file-copy">
+              <strong id="fasta-name">Choose quality-checked FASTA</strong>
+              <small>One reconstructed bacterial genome, up to 12 MB</small>
+            </span>
+          </label>
+
+          <label class="field-label" for="amr-file">
+            AMRFinderPlus result <span>optional</span>
+          </label>
+          <label class="compact-file" for="amr-file">
+            <input id="amr-file" type="file" accept=".tsv,.txt" />
+            <span id="amr-name">Attach TSV when the local scanner is unavailable</span>
+            <span class="add-symbol" aria-hidden="true">+</span>
+          </label>
+
+          <div class="form-actions">
+            <button class="primary-button" type="submit" id="analyze-button">Run analysis</button>
+            <button class="text-button" type="button" id="demo-button">Load example case</button>
+          </div>
+          <p class="form-error" id="form-error" role="alert"></p>
+        </form>
+      </section>
+
+      <section class="process-strip" aria-label="Analysis process">
+        <div><span>01</span><strong>Genome reader</strong><small>Validate + detect evidence</small></div>
+        <div><span>02</span><strong>Failure predictor</strong><small>Drug-specific risk model</small></div>
+        <div><span>03</span><strong>Evidence auditor</strong><small>Target gate + no-call</small></div>
+        <div><span>04</span><strong>Decision report</strong><small>Traceable, human-reviewed output</small></div>
+      </section>
+
+      <section class="results" id="results" hidden aria-live="polite">
+        <div class="results-header">
+          <div>
+            <p class="eyebrow">Decision report</p>
+            <h2>Antibiotic response outlook</h2>
+          </div>
+          <div class="analysis-meta" id="analysis-meta"></div>
+        </div>
+
+        <div class="summary-grid" id="summary-grid"></div>
+
+        <div class="results-layout">
+          <section class="decision-panel">
+            <div class="section-title-row">
+              <h3>Drug-level calls</h3>
+              <span class="reader-badge" id="reader-badge"></span>
+            </div>
+            <div class="prediction-list" id="prediction-list"></div>
+          </section>
+
+          <aside class="audit-panel">
+            <p class="step-label">Evidence audit</p>
+            <h3 id="audit-title">Guardrails passed</h3>
+            <p id="audit-policy"></p>
+            <div class="audit-flags" id="audit-flags"></div>
+            <div class="audit-rule">
+              <span>Susceptible calls</span>
+              <strong>Require complete scan + target gate</strong>
+            </div>
+            <div class="audit-rule">
+              <span>Uncertain evidence</span>
+              <strong>Returns no-call</strong>
+            </div>
+            <div class="report-agent">
+              <button class="secondary-button" type="button" id="report-agent-button">Generate reviewer brief</button>
+              <p id="report-agent-status">Checking Report Agent…</p>
+              <div class="report-agent-output" id="report-agent-output" hidden></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="disclaimer" id="disclaimer"></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Genome Firewall / OpenAI × Hack-Nation</span>
+      <span>Defensive AMR decision support prototype</span>
+    </footer>
+    <script src="/app.js"></script>
+  </body>
+</html>

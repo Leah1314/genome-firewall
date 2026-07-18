@@ -1,0 +1,14 @@
+{
+  "name": "genome-firewall",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Defensive antibiotic failure early-warning prototype for the Hack-Nation Genome Firewall challenge.",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check scripts/train-baseline.js && node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
