@@ -2,9 +2,8 @@ const { parseFasta, summarizeGenome } = require("./fasta");
 const { parseAmrFinderTsv, runAmrFinder } = require("./amrfinder");
 const { runPredictions } = require("./predictor");
 const { auditPredictions } = require("./auditor");
-const { ANTIBIOTICS, SUPPORTED_SPECIES } = require("./config");
+const { SUPPORTED_SPECIES } = require("./config");
 const { buildTargetEvidence } = require("./targets");
-const { loadModelRegistry } = require("./model-registry");
 
 async function analyzeGenome({ fastaText, amrTsv = "", gffText = "", species = "Escherichia coli", forceImported = false }) {
   const records = parseFasta(fastaText);
@@ -25,8 +24,7 @@ async function analyzeGenome({ fastaText, amrTsv = "", gffText = "", species = "
   }
 
   const targetEvidence = buildTargetEvidence(gffText);
-  const models = await loadModelRegistry(ANTIBIOTICS);
-  const context = { species, genomeSummary, hits, readerMode, targetEvidence, models };
+  const context = { species, genomeSummary, hits, readerMode, targetEvidence };
   const predictions = runPredictions(context);
   const audit = auditPredictions(predictions, context);
   return {

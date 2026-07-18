@@ -89,7 +89,7 @@ function evidenceCategory(evidenceList, decision) {
 }
 
 function predictAntibiotic(antibiotic, context) {
-  const gate = targetGate(context);
+  const gate = targetGate(context, antibiotic.id);
   const evidence = context.hits
     .filter((hit) => matchesMarker(hit, antibiotic.markers))
     .map((hit) => ({ ...hit, category: classifyEvidence(hit) }));
@@ -101,7 +101,7 @@ function predictAntibiotic(antibiotic, context) {
 
   let decision = "no_call";
   let reason = gate.rationale;
-  if (gate.pass && evidence.length && probabilityOfFailure >= highThreshold) {
+  if (context.genomeSummary.qc !== "fail" && evidence.length && probabilityOfFailure >= highThreshold) {
     decision = "likely_to_fail";
     reason = "Known AMR evidence raises the estimated probability of antibiotic failure.";
   } else if (gate.pass && (context.readerMode === "amrfinder" || context.readerMode === "imported_amrfinder") && probabilityOfFailure <= lowThreshold) {
@@ -123,9 +123,6 @@ function predictAntibiotic(antibiotic, context) {
     confidence: Number(confidence.toFixed(2)),
     target: antibiotic.target,
     targetGate: gate,
-    modelSource: artifact ? "trained_artifact" : "bundled_baseline",
-    modelVersion: artifact ? `schema-${artifact.schemaVersion}` : "integration-baseline-v1",
-    decisionThresholds: thresholds,
     evidence,
     evidenceCategory: evidenceCategory(evidence, decision),
     explanation: reason,
