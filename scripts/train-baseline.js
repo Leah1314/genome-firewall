@@ -8,9 +8,34 @@ function sigmoid(value) {
 }
 
 function parseCsv(text) {
-  const rows = text.trim().split(/\r?\n/).map((line) => line.split(",").map((cell) => cell.trim()));
-  const headers = rows.shift();
-  return rows.map((cells) => Object.fromEntries(headers.map((header, index) => [header, cells[index]])));
+  const records = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    if (char === '"' && quoted && text[index + 1] === '"') {
+      cell += '"';
+      index += 1;
+    } else if (char === '"') {
+      quoted = !quoted;
+    } else if (char === "," && !quoted) {
+      row.push(cell.trim());
+      cell = "";
+    } else if ((char === "\n" || char === "\r") && !quoted) {
+      if (char === "\r" && text[index + 1] === "\n") index += 1;
+      row.push(cell.trim());
+      if (row.some(Boolean)) records.push(row);
+      row = [];
+      cell = "";
+    } else {
+      cell += char;
+    }
+  }
+  row.push(cell.trim());
+  if (row.some(Boolean)) records.push(row);
+  const headers = records.shift() || [];
+  return records.map((cells) => Object.fromEntries(headers.map((header, index) => [header, cells[index] || ""])));
 }
 
 // Deterministic 3-way grouped split: no group_id ever appears in more than one
@@ -19,6 +44,7 @@ function parseCsv(text) {
 // training and threshold selection, so its metrics are an honest estimate.
 function groupedSplit(rows) {
   const groups = [...new Set(rows.map((row) => row.group_id))].sort();
+  if (groups.length < 3) throw new Error("At least three distinct group_id values are required for train, validation, and test splits.");
   const testGroups = new Set(groups.filter((_, index) => index % 5 === 0));
   const remaining = groups.filter((group) => !testGroups.has(group));
   const calibrationGroups = new Set(remaining.filter((_, index) => index % 4 === 0));
@@ -33,6 +59,13 @@ function groupedSplit(rows) {
   };
 }
 
+function rawScore(row, model, features) {
+  return model.intercept + features.reduce(
+    (sum, feature) => sum + (Number(row[feature]) || 0) * model.weights[feature],
+    0,
+  );
+}
+
 function trainLogistic(rows, features, iterations = 3000, learningRate = 0.04, l2 = 0.01) {
   const weights = Array(features.length).fill(0);
   let intercept = 0;
@@ -41,9 +74,7 @@ function trainLogistic(rows, features, iterations = 3000, learningRate = 0.04, l
     let interceptGradient = 0;
     for (const row of rows) {
       const values = features.map((feature) => Number(row[feature]) || 0);
-      const label = Number(row.label);
-      const prediction = sigmoid(intercept + values.reduce((sum, value, index) => sum + value * weights[index], 0));
-      const error = prediction - label;
+      const error = sigmoid(intercept + values.reduce((sum, value, index) => sum + value * weights[index], 0)) - Number(row.label);
       interceptGradient += error;
       values.forEach((value, index) => { gradient[index] += error * value; });
     }
@@ -206,18 +237,66 @@ function evaluate(testRows, model, features, thresholds) {
   };
 }
 
+function selectThresholds(rows, model, features, calibration) {
+  let best = null;
+  for (let susceptible = 0.1; susceptible <= 0.45; susceptible += 0.05) {
+    for (let resistant = 0.55; resistant <= 0.9; resistant += 0.05) {
+      const thresholds = { susceptible: Number(susceptible.toFixed(2)), resistant: Number(resistant.toFixed(2)) };
+      const result = evaluate(rows, model, features, calibration, thresholds);
+      if (result.calledAccuracy === null || result.balancedAccuracy === null) continue;
+      const utility = result.calledAccuracy * 0.55 + result.balancedAccuracy * 0.35 - result.noCallRate * 0.1;
+      if (!best || utility > best.utility) best = { thresholds, utility };
+    }
+  }
+  return best?.thresholds || { susceptible: 0.33, resistant: 0.67 };
+}
+
+function modelCard(artifact) {
+  const metric = artifact.testMetrics;
+  return `# ${artifact.antibiotic} baseline model card
+
+## Intended use
+
+Research-only early warning for antibiotic failure in the explicitly supported species. Predictions require AMRFinderPlus evidence, genome QC, target-locus confirmation for likely-to-work calls, and confirmation by phenotypic AST and qualified clinical review.
+
+## Training design
+
+- Model: L2-regularized logistic regression
+- Split: deterministic group-level train / validation / test
+- Groups: ${artifact.groupedSplit.train} train, ${artifact.groupedSplit.validation} validation, ${artifact.groupedSplit.test} test
+- Calibration: Platt scaling fitted on validation groups only
+- Abstention thresholds: susceptible <= ${artifact.thresholds.susceptible}; resistant >= ${artifact.thresholds.resistant}; otherwise no-call
+
+## Held-out test metrics
+
+- Samples: ${metric.sampleCount}
+- Balanced accuracy: ${metric.balancedAccuracy ?? "not estimable"}
+- Resistant recall: ${metric.resistantRecall ?? "not estimable"}
+- Susceptible recall: ${metric.susceptibleRecall ?? "not estimable"}
+- Resistant F1: ${metric.resistantF1 ?? "not estimable"}
+- AUROC: ${metric.auroc ?? "not estimable"}
+- PR-AUC: ${metric.prAuc ?? "not estimable"}
+- Brier score: ${metric.brierScore}
+- No-call rate: ${metric.noCallRate}
+- Accuracy among called samples: ${metric.calledAccuracy ?? "not estimable"}
+
+## Limitations
+
+These metrics describe only the supplied grouped test set. They do not establish clinical validity, transportability across sites, or performance on unseen species, lineages, sequencing platforms, or resistance mechanisms.
+`;
+}
+
 async function main() {
   const input = process.argv[2];
   const antibiotic = process.argv[3];
-  if (!input || !antibiotic) {
-    throw new Error("Usage: node scripts/train-baseline.js <features.csv> <antibiotic-id>");
-  }
+  if (!input || !antibiotic) throw new Error("Usage: node scripts/train-baseline.js <features.csv> <antibiotic-id>");
   const rows = parseCsv(await readFile(input, "utf8")).filter((row) => row.antibiotic === antibiotic);
   if (rows.length < 20) throw new Error("At least 20 labeled rows are required for this baseline trainer.");
+  if (rows.some((row) => row.label !== "0" && row.label !== "1")) throw new Error("Labels must be binary values 0 or 1.");
   const required = new Set(["sample_id", "group_id", "antibiotic", "label"]);
   const features = Object.keys(rows[0]).filter((header) => !required.has(header));
+  if (!features.length) throw new Error("At least one numeric feature column is required.");
   const split = groupedSplit(rows);
-  if (!split.test.length || !split.train.length) throw new Error("At least two distinct group_id values are required.");
   const model = trainLogistic(split.train, features);
 
   const calibrationScored = withProbabilities(split.calibration.length ? split.calibration : split.train, model, features);
@@ -236,12 +315,13 @@ async function main() {
   const outputDir = path.join(__dirname, "..", "models");
   await mkdir(outputDir, { recursive: true });
   const output = path.join(outputDir, `${antibiotic}.json`);
-  await writeFile(output, JSON.stringify(artifact, null, 2));
+  const cardOutput = path.join(outputDir, `${antibiotic}.model-card.md`);
+  await Promise.all([
+    writeFile(output, JSON.stringify(artifact, null, 2)),
+    writeFile(cardOutput, modelCard(artifact)),
+  ]);
   console.log(`Wrote ${output}`);
   console.log(JSON.stringify(artifact.validation, null, 2));
 }
 
-main().catch((error) => {
-  console.error(error.message);
-  process.exitCode = 1;
-});
+module.exports = { parseCsv, groupedSplit, trainLogistic, fitPlatt, evaluate, selectThresholds };

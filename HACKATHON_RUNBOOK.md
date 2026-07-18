@@ -39,3 +39,16 @@
 ## Pitch sentence
 
 “Genome Firewall is a defensive early-warning layer that predicts which antibiotics may fail from a bacterial genome, shows the evidence behind every call, and refuses to guess when the genome or model is uncertain.”
+
+## Reproducible commands
+
+```bash
+conda env create -f environment-amrfinder.yml
+conda activate genome-firewall-amr
+npm run amr:check
+npm run features:generate -- data/manifest.tsv data/generated/features.csv
+node scripts/train-baseline.js data/generated/features.csv ciprofloxacin
+npm run check
+```
+
+Do not report model-quality numbers from the bundled example. Report only metrics generated from an organizer-approved labeled cohort, and retain the generated model card with the submission.

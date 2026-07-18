@@ -1,6 +1,6 @@
 # Genome Firewall
 
-Genome Firewall is a defensive antibiotic-failure early-warning prototype for the OpenAI × Hack-Nation challenge. It accepts one quality-checked *Escherichia coli* FASTA assembly, incorporates AMRFinderPlus evidence, and returns a drug-level `likely to fail`, `likely to work`, or `no-call` report with traceable evidence.
+Genome Firewall is a defensive antibiotic-failure early-warning system for the OpenAI × Hack-Nation challenge. It accepts one quality-checked *Escherichia coli* FASTA assembly, AMRFinderPlus evidence, and a matching GFF3 annotation, then returns a drug-level `likely to fail`, `likely to work`, or `no-call` report with traceable evidence.
 
 This is research decision support, not a diagnostic device or treatment recommendation. Every output must be confirmed with standard antimicrobial susceptibility testing and qualified clinical review.
 
@@ -11,6 +11,8 @@ npm start
 ```
 
 Open `http://127.0.0.1:4180`. Choose **Load example case** for the fastest end-to-end demo.
+
+Public GitHub Pages preview: `https://leah1314.github.io/genome-firewall/`. On Pages, FASTA and AMRFinderPlus TSV analysis runs locally in the browser; the optional OpenAI Report Agent requires the Node backend.
 
 No npm installation is required. The server uses Node.js built-ins and serves a local API and web interface.
 
@@ -35,7 +37,25 @@ npm run check
 curl http://127.0.0.1:4180/api/health
 ```
 
-## Train a baseline
+## Reproducible AMR environment
+
+AMRFinderPlus is intentionally not bundled into the browser build. Create the pinned Bioconda environment on the analysis machine:
+
+```bash
+conda env create -f environment-amrfinder.yml
+conda activate genome-firewall-amr
+npm run amr:check
+```
+
+Build the feature table from a local cohort manifest:
+
+```bash
+npm run features:generate -- data/manifest.tsv data/generated/features.csv
+```
+
+The manifest contract and required provenance are documented in [data/README.md](./data/README.md).
+
+## Train and evaluate a baseline
 
 `data/README.md` documents the full, repeatable path from BV-BRC + AMRFinderPlus + Mash to `data/features.csv` in the required schema:
 

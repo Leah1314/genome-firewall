@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Defensive antibiotic failure early-warning research prototype." />
     <title>Genome Firewall</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Genome Firewall home">
+      <a class="brand" href="./" aria-label="Genome Firewall home">
         <span class="brand-mark" aria-hidden="true">GF</span>
         <span>Genome Firewall</span>
       </a>
@@ -52,6 +52,15 @@
           <label class="compact-file" for="amr-file">
             <input id="amr-file" type="file" accept=".tsv,.txt" />
             <span id="amr-name">Attach TSV when the local scanner is unavailable</span>
+            <span class="add-symbol" aria-hidden="true">+</span>
+          </label>
+
+          <label class="field-label" for="gff-file">
+            Genome annotation <span>required for likely-to-work calls</span>
+          </label>
+          <label class="compact-file" for="gff-file">
+            <input id="gff-file" type="file" accept=".gff,.gff3,.txt" />
+            <span id="gff-name">Attach GFF3 to confirm molecular target loci</span>
             <span class="add-symbol" aria-hidden="true">+</span>
           </label>
 
@@ -128,8 +137,9 @@
 
     <footer>
       <span>Genome Firewall / OpenAI × Hack-Nation</span>
-      <span>Defensive AMR decision support prototype</span>
+      <span>Defensive AMR research decision support</span>
     </footer>
-    <script src="/app.js"></script>
+    <script src="./static-engine.js"></script>
+    <script src="./app.js"></script>
   </body>
 </html>

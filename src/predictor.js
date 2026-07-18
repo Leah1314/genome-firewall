@@ -1,4 +1,5 @@
 const { ANTIBIOTICS, SUPPORTED_SPECIES } = require("./config");
+const { extractAntibioticFeatures } = require("./features");
 
 function sigmoid(value) {
   return 1 / (1 + Math.exp(-value));
@@ -29,7 +30,7 @@ function classifyEvidence(hit) {
   return /point|mutation|variant|SNP/i.test(text) ? "known_mutation" : "known_gene";
 }
 
-function targetGate({ species, genomeSummary }) {
+function targetGate({ species, genomeSummary, targetEvidence }, antibioticId) {
   const profile = SUPPORTED_SPECIES[String(species || "").toLowerCase()];
   if (!profile) return { pass: false, status: "unsupported_species", rationale: "Species is outside the validated scope." };
   if (genomeSummary.qc === "fail") return { pass: false, status: "insufficient_genome", rationale: "Genome quality is too low to establish target context." };
@@ -37,10 +38,13 @@ function targetGate({ species, genomeSummary }) {
   if (genomeSummary.totalBases < min || genomeSummary.totalBases > max) {
     return { pass: false, status: "size_out_of_range", rationale: "Assembly size is outside the supported species range." };
   }
-  return {
-    pass: true,
-    status: "species_qc_proxy",
-    rationale: "Target context is provisionally supported by species identity and assembly QC; confirm target loci in the production pipeline.",
+  return targetEvidence?.[antibioticId] || {
+    pass: false,
+    assessed: false,
+    status: "not_assessed",
+    matched: [],
+    missing: [],
+    rationale: "No genome annotation was supplied, so molecular target presence was not assessed.",
   };
 }
 
@@ -119,6 +123,9 @@ function predictAntibiotic(antibiotic, context) {
     confidence: Number(confidence.toFixed(2)),
     target: antibiotic.target,
     targetGate: gate,
+    modelSource: artifact ? "trained_artifact" : "bundled_baseline",
+    modelVersion: artifact ? `schema-${artifact.schemaVersion}` : "integration-baseline-v1",
+    decisionThresholds: thresholds,
     evidence,
     evidenceCategory: evidenceCategory(evidence, decision),
     explanation: reason,

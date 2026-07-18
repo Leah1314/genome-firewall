@@ -8,6 +8,14 @@ const { buildPrompt, sanitizeLabel } = require("../src/openai-image");
 
 const demoFasta = `>demo\n${"ACGT".repeat(1_000_000)}`;
 const header = "#Gene symbol\tProtein name\tElement subtype\tMethod\t% Coverage of reference sequence\t% Identity to reference sequence";
+const targetGff = [
+  "##gff-version 3",
+  "demo\tunit\tgene\t1\t100\t.\t+\t.\tID=gyrA;gene=gyrA;product=DNA gyrase subunit A",
+  "demo\tunit\tgene\t101\t200\t.\t+\t.\tID=parC;gene=parC;product=Topoisomerase IV subunit A",
+  "demo\tunit\tgene\t201\t300\t.\t+\t.\tID=ftsI;gene=ftsI;product=Penicillin-binding protein 3",
+  "demo\tunit\tgene\t301\t400\t.\t+\t.\tID=rpsL;gene=rpsL;product=30S ribosomal protein S12",
+  "demo\tunit\trRNA\t401\t500\t.\t+\t.\tID=rrsA;gene=rrsA;product=16S ribosomal RNA",
+].join("\n");
 
 test("FASTA parser rejects non-FASTA input", () => {
   assert.throws(() => parseFasta("ACGT"), /not FASTA/);
@@ -68,6 +76,15 @@ test("FASTA-only mode never makes a likely-to-work call", async () => {
   const result = await analyzeGenome({ fastaText: demoFasta, forceImported: true });
   assert.ok(result.predictions.every((item) => item.decision !== "likely_to_work"));
   assert.equal(result.reader.mode, "fasta_only");
+});
+
+test("susceptible call requires explicit target annotation", async () => {
+  const noTarget = await analyzeGenome({ fastaText: demoFasta, amrTsv: header, forceImported: true });
+  assert.ok(noTarget.predictions.every((item) => item.decision !== "likely_to_work"));
+
+  const withTargets = await analyzeGenome({ fastaText: demoFasta, amrTsv: header, gffText: targetGff, forceImported: true });
+  assert.ok(withTargets.predictions.every((item) => item.decision === "likely_to_work"));
+  assert.ok(withTargets.predictions.every((item) => item.targetGate.status === "target_confirmed"));
 });
 
 test("Report Agent input excludes raw sequence data", async () => {

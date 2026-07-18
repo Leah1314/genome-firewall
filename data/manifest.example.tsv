@@ -1,0 +1,2 @@
+sample_id	group_id	species	fasta_path	gff_path	ciprofloxacin	ceftriaxone	gentamicin
+example_001	cluster_001	Escherichia coli	assemblies/example_001.fna	annotations/example_001.gff3	1	1	0

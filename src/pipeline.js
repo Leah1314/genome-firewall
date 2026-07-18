@@ -2,9 +2,11 @@ const { parseFasta, summarizeGenome } = require("./fasta");
 const { parseAmrFinderTsv, runAmrFinder } = require("./amrfinder");
 const { runPredictions } = require("./predictor");
 const { auditPredictions } = require("./auditor");
-const { SUPPORTED_SPECIES } = require("./config");
+const { ANTIBIOTICS, SUPPORTED_SPECIES } = require("./config");
+const { buildTargetEvidence } = require("./targets");
+const { loadModelRegistry } = require("./model-registry");
 
-async function analyzeGenome({ fastaText, amrTsv = "", species = "Escherichia coli", forceImported = false }) {
+async function analyzeGenome({ fastaText, amrTsv = "", gffText = "", species = "Escherichia coli", forceImported = false }) {
   const records = parseFasta(fastaText);
   const genomeSummary = summarizeGenome(records);
   let hits = [];
@@ -22,14 +24,20 @@ async function analyzeGenome({ fastaText, amrTsv = "", species = "Escherichia co
     }
   }
 
-  const context = { species, genomeSummary, hits, readerMode };
+  const targetEvidence = buildTargetEvidence(gffText);
+  const models = await loadModelRegistry(ANTIBIOTICS);
+  const context = { species, genomeSummary, hits, readerMode, targetEvidence, models };
   const predictions = runPredictions(context);
   const audit = auditPredictions(predictions, context);
   return {
     analysisId: `gf_${Date.now().toString(36)}`,
     createdAt: new Date().toISOString(),
     species,
-    reader: { mode: readerMode, hitCount: hits.length },
+    reader: {
+      mode: readerMode,
+      hitCount: hits.length,
+      targetAnnotation: gffText.trim() ? "imported_gff" : "not_supplied",
+    },
     genome: genomeSummary,
     predictions,
     audit,

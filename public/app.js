@@ -1,8 +1,10 @@
 const form = document.querySelector("#analysis-form");
 const fastaInput = document.querySelector("#fasta-file");
 const amrInput = document.querySelector("#amr-file");
+const gffInput = document.querySelector("#gff-file");
 const fastaName = document.querySelector("#fasta-name");
 const amrName = document.querySelector("#amr-name");
+const gffName = document.querySelector("#gff-name");
 const analyzeButton = document.querySelector("#analyze-button");
 const demoButton = document.querySelector("#demo-button");
 const errorElement = document.querySelector("#form-error");
@@ -11,6 +13,7 @@ const reportAgentButton = document.querySelector("#report-agent-button");
 const reportAgentStatus = document.querySelector("#report-agent-status");
 const reportAgentOutput = document.querySelector("#report-agent-output");
 let currentAnalysis = null;
+const isStaticHost = window.location.hostname.endsWith("github.io");
 
 function formatNumber(value) {
   return new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 }).format(value);
@@ -59,14 +62,18 @@ function render(result) {
   `).join("");
 
   document.querySelector("#prediction-list").innerHTML = result.predictions.map((prediction) => {
-    const tags = prediction.evidence.length
+    const evidenceTags = prediction.evidence.length
       ? prediction.evidence.map((item) => `<span class="evidence-tag">${escapeHtml(item.gene || item.name)} · ${escapeHtml(item.category.replaceAll("_", " "))}</span>`).join("")
       : `<span class="evidence-tag">No drug-specific marker surfaced</span>`;
+    const targetTags = (prediction.targetGate.matched || [])
+      .map((item) => `<span class="evidence-tag target-tag">Target confirmed · ${escapeHtml(item.requirement)}</span>`)
+      .join("");
     return `
       <article class="prediction">
         <div class="drug-name">
           <strong>${escapeHtml(prediction.antibiotic)}</strong>
           <small>${escapeHtml(prediction.target)}</small>
+          <small>${prediction.modelSource === "trained_artifact" ? "Calibrated model artifact" : "Bundled integration baseline"}</small>
         </div>
         <div>
           <span class="call ${callClass(prediction.decision)}">${callLabel(prediction.decision)}</span>
@@ -95,15 +102,20 @@ function render(result) {
   results.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-async function requestAnalysis(endpoint, options) {
+async function requestAnalysis(endpoint, options, staticFallback) {
   errorElement.textContent = "";
   analyzeButton.disabled = true;
   demoButton.disabled = true;
   analyzeButton.textContent = "Analyzing…";
   try {
-    const response = await fetch(endpoint, options);
-    const payload = await response.json();
-    if (!response.ok) throw new Error(payload.error || "Analysis failed.");
+    let payload;
+    if (isStaticHost) {
+      payload = staticFallback();
+    } else {
+      const response = await fetch(endpoint, options);
+      payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || "Analysis failed.");
+    }
     render(payload);
   } catch (error) {
     errorElement.textContent = error.message;
@@ -120,6 +132,9 @@ fastaInput.addEventListener("change", () => {
 amrInput.addEventListener("change", () => {
   amrName.textContent = amrInput.files[0]?.name || "Attach TSV when the local scanner is unavailable";
 });
+gffInput.addEventListener("change", () => {
+  gffName.textContent = gffInput.files[0]?.name || "Attach GFF3 to confirm molecular target loci";
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -129,21 +144,26 @@ form.addEventListener("submit", async (event) => {
     return;
   }
   if (fastaFile.size > 12 * 1024 * 1024) {
-    errorElement.textContent = "FASTA upload must be 12 MB or smaller for this prototype.";
+    errorElement.textContent = "FASTA upload must be 12 MB or smaller.";
     return;
   }
-  const [fastaText, amrTsv] = await Promise.all([
+  const [fastaText, amrTsv, gffText] = await Promise.all([
     fastaFile.text(),
     amrInput.files[0] ? amrInput.files[0].text() : Promise.resolve(""),
+    gffInput.files[0] ? gffInput.files[0].text() : Promise.resolve(""),
   ]);
   requestAnalysis("/api/analyze", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ fastaText, amrTsv, species: "Escherichia coli" }),
-  });
+    body: JSON.stringify({ fastaText, amrTsv, gffText, species: "Escherichia coli" }),
+  }, () => window.GenomeFirewallEngine.analyze({ fastaText, amrTsv, gffText }));
 });
 
-demoButton.addEventListener("click", () => requestAnalysis("/api/demo"));
+demoButton.addEventListener("click", () => requestAnalysis(
+  "/api/demo",
+  undefined,
+  () => window.GenomeFirewallEngine.demo(),
+));
 
 reportAgentButton.addEventListener("click", async () => {
   if (!currentAnalysis) return;
@@ -252,7 +272,9 @@ fetch("/api/health")
   .then((response) => response.json())
   .then((health) => {
     reportAgentButton.disabled = !health.reportAgentConfigured;
-    reportAgentStatus.textContent = health.reportAgentConfigured
+    reportAgentStatus.textContent = health.staticHost
+      ? "GitHub Pages preview: analysis runs locally; the optional OpenAI brief requires the backend."
+      : health.reportAgentConfigured
       ? "OpenAI Report Agent is ready. It receives audited JSON, never raw sequence."
       : "Optional: set OPENAI_API_KEY to enable the bounded reviewer brief.";
     imageAgentReady = Boolean(health.imageAgentConfigured);
