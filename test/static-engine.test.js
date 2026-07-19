@@ -32,8 +32,9 @@ test("GitHub Pages FASTA-only analysis disables susceptible calls", () => {
 });
 
 const CODON = {
-  H: "CAT", G: "GGT", D: "GAT", A: "GCT", S: "TCT", I: "ATT",
-  Y: "TAT", T: "ACT", M: "ATG", R: "CGT",
+  A: "GCT", R: "CGT", N: "AAT", D: "GAT", C: "TGT", Q: "CAA", E: "GAA", G: "GGT",
+  H: "CAT", I: "ATT", L: "CTT", K: "AAA", M: "ATG", F: "TTT", P: "CCT", S: "TCT",
+  T: "ACT", W: "TGG", Y: "TAT", V: "GTT",
 };
 
 function dnaFor(aminoAcids) {
@@ -52,16 +53,38 @@ function randomDnaSequence(length, seed) {
   return sequence;
 }
 
+function inFrameFiller(length, seed) {
+  return randomDnaSequence(Math.ceil(length / 3) * 3, seed);
+}
+
 test("GitHub Pages FASTA-only target scan mirrors the backend: no false positive on random genome-scale DNA", () => {
   const fastaText = `>random_genome\n${randomDnaSequence(3_600_000, 5)}`;
   const result = loadEngine().analyze({ fastaText });
   assert.ok(result.predictions.every((prediction) => prediction.targetGate.status !== "target_confirmed"));
 });
 
-test("GitHub Pages FASTA-only target scan detects a gyrA-like signature embedded in an assembly", () => {
-  const motifDna = `${dnaFor("HGDASIYDT")}${randomDnaSequence(300, 7)}${dnaFor("MGIDIR")}`;
-  const fastaText = `>embedded_target\n${randomDnaSequence(1_800_000, 3)}${motifDna}${randomDnaSequence(1_800_000, 4)}`;
+test("GitHub Pages FASTA-only target scan detects a gyrA signature embedded in an assembly", () => {
+  // Real gyrA motifs (see public/static-engine.js / src/targets.js), all
+  // three co-located as one ORF.
+  const motifDna = `${dnaFor("DAKTGRETIIVHE")}${dnaFor("TEQQAQAILDLRL")}${dnaFor("ANGTVKKTVLTEF")}`;
+  const fastaText = `>embedded_target\n${inFrameFiller(1_800_000, 3)}${motifDna}${randomDnaSequence(1_800_000, 4)}`;
   const result = loadEngine().analyze({ fastaText });
   const cipro = result.predictions.find((prediction) => prediction.antibioticId === "ciprofloxacin");
   assert.ok(cipro.targetGate.matched.some((item) => item.requirement === "gyrA"));
+});
+
+test("GitHub Pages FASTA-only target scan requires co-located matches, not scattered ones", () => {
+  // Same regression as the backend: one gyrA motif and one parC motif, far
+  // apart and separated by an in-frame stop codon, must not combine into a
+  // false "confirmed" result for either gene. Padded to a QC-passing genome
+  // size (3.5-6.5 Mb) so the target gate actually reaches target evidence
+  // instead of short-circuiting on assembly size first.
+  const segment1 = `${inFrameFiller(200, 11)}${dnaFor("DAKTGRETIIVHE")}`;
+  const stop = "TAA";
+  const segment2 = `${inFrameFiller(300, 12)}${dnaFor("AVVISALPHQVSG")}${inFrameFiller(300, 13)}`;
+  const fastaText = `>scattered_motifs\n${inFrameFiller(1_800_000, 15)}${segment1}${stop}${segment2}${randomDnaSequence(1_800_000, 14)}`;
+  const result = loadEngine().analyze({ fastaText });
+  const cipro = result.predictions.find((prediction) => prediction.antibioticId === "ciprofloxacin");
+  assert.equal(cipro.targetGate.matched.some((item) => item.requirement === "gyrA"), false);
+  assert.equal(cipro.targetGate.matched.some((item) => item.requirement === "parC"), false);
 });

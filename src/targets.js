@@ -13,30 +13,39 @@ const CODON_TABLE = {
 
 const COMPLEMENT = { A: "T", C: "G", G: "C", T: "A", U: "A", R: "N", Y: "N", S: "N", W: "N", K: "N", M: "N", B: "N", D: "N", H: "N", V: "N", N: "N" };
 
+// Motifs are literal 13-residue substrings taken directly from the real
+// E. coli K-12 MG1655 reference proteins (NCBI RefSeq GCF_000005845.2), not
+// guessed or reconstructed from memory -- an earlier motif set for gyrA/parC
+// turned out to be largely fabricated and failed against real sequence (see
+// git history). gyrA/parC motifs are also chosen well clear of the QRDR
+// (~residues 67-106), the classic fluoroquinolone-resistance mutation
+// hotspot (e.g. gyrA S83L), so a resistant strain's point mutation there
+// doesn't make its own target-presence check fail -- presence and mutation
+// are separate evidence channels (this gate vs. AMRFinderPlus POINT hits).
 const FASTA_TARGET_SIGNATURES = {
   gyrA: {
     label: "gyrA",
     kind: "protein",
     minMatches: 2,
-    motifs: [/MG[ILV]D[IV]R/i, /GDSA[AV]YDT[IV]/i, /EGDSA[AV]YDT/i, /HGDASIYDT/i],
+    motifs: [/DAKTGRETIIVHE/i, /TEQQAQAILDLRL/i, /ANGTVKKTVLTEF/i],
   },
   parC: {
     label: "parC",
     kind: "protein",
     minMatches: 2,
-    motifs: [/MSD[IV][ILV]?Q/i, /GDSA[AV]YDT[IV]?/i, /PLRGK[ILV]L/i, /GYG[KR]K/i],
+    motifs: [/AVVISALPHQVSG/i, /LASERKMNNLLKK/i, /RMLMFPVSDLPQL/i],
   },
   "ftsI / PBP3": {
     label: "ftsI / PBP3",
     kind: "protein",
     minMatches: 2,
-    motifs: [/S[ST]VK/i, /KTGTA/i, /S[GN]N/i],
+    motifs: [/S[ST]VK/i, /KTGTA/i, /GVKAAIKGYRIAI/i],
   },
   rpsL: {
     label: "rpsL",
     kind: "protein",
     minMatches: 2,
-    motifs: [/MPTINQLVRK/i, /DVTA[AV]{0,2}E/i, /GPK[KR]P/i, /RPSL/i],
+    motifs: [/QLVRKPRARKVAK/i, /FEVTSYIGGEGHN/i, /GVKDRKQARSKYG/i],
   },
   "16S rRNA": {
     label: "16S rRNA",
@@ -118,6 +127,17 @@ function translateFrame(sequence, offset = 0) {
   return protein;
 }
 
+// Real genes translate as one uninterrupted run with no in-frame stop codon.
+// Splitting on "*" and requiring every matched motif to fall within the same
+// segment means a hit actually reflects one candidate coding region, not an
+// arbitrary combination of motifs scattered anywhere in the genome -- e.g.
+// two motifs 600,000 bp apart in unrelated proteins no longer count together.
+const MIN_ORF_SEGMENT_LENGTH = 50;
+
+function proteinSegments(protein) {
+  return protein.split("*").filter((segment) => segment.length >= MIN_ORF_SEGMENT_LENGTH);
+}
+
 function targetHitFromFasta(requirement, records) {
   const signature = FASTA_TARGET_SIGNATURES[requirement.label];
   if (!signature) return null;
@@ -130,20 +150,23 @@ function targetHitFromFasta(requirement, records) {
         { sequence: translateFrame(reverseComplement(sequence), frame), strand: "-", frame: frame + 1 },
       ]);
     for (const space of searchSpaces) {
-      const matchedMotifs = signature.motifs.filter((motif) => motif.test(space.sequence));
-      if (matchedMotifs.length >= signature.minMatches) {
-        return {
-          symbol: signature.label.split(" / ")[0],
-          product: requirement.label,
-          seqid: record.id,
-          source: "FASTA target scan",
-          type: signature.kind === "dna" ? "rRNA locus signature" : "translated coding-locus signature",
-          start: null,
-          end: null,
-          strand: space.strand,
-          frame: space.frame || null,
-          signatureMatches: matchedMotifs.length,
-        };
+      const segments = signature.kind === "dna" ? [space.sequence] : proteinSegments(space.sequence);
+      for (const segment of segments) {
+        const matchedMotifs = signature.motifs.filter((motif) => motif.test(segment));
+        if (matchedMotifs.length >= signature.minMatches) {
+          return {
+            symbol: signature.label.split(" / ")[0],
+            product: requirement.label,
+            seqid: record.id,
+            source: "FASTA target scan",
+            type: signature.kind === "dna" ? "rRNA locus signature" : "translated coding-locus signature",
+            start: null,
+            end: null,
+            strand: space.strand,
+            frame: space.frame || null,
+            signatureMatches: matchedMotifs.length,
+          };
+        }
       }
     }
   }
