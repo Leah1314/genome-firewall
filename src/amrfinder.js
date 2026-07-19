@@ -3,13 +3,17 @@ const { mkdtemp, writeFile, readFile, rm } = require("node:fs/promises");
 const { tmpdir } = require("node:os");
 const path = require("node:path");
 
+// Real AMRFinderPlus 4.2.7 output (verified against the pinned tool's
+// actual output, not assumed) uses "% Coverage of reference" / "% Identity
+// to reference" -- no "sequence" suffix. The "sequence"-suffixed forms are
+// kept too for older/other tool versions that do emit them.
 const HEADER_ALIASES = {
   gene: ["gene symbol", "gene", "element symbol"],
   name: ["protein name", "element name", "name"],
   subtype: ["subtype", "element subtype"],
   method: ["method", "element subtype"],
-  identity: ["% identity to reference sequence", "% identity", "identity"],
-  coverage: ["% coverage of reference sequence", "% coverage", "coverage"],
+  identity: ["% identity to reference sequence", "% identity to reference", "% identity", "identity"],
+  coverage: ["% coverage of reference sequence", "% coverage of reference", "% coverage", "coverage"],
 };
 
 function normalizeHeader(value) {

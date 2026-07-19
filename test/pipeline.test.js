@@ -35,6 +35,28 @@ test("AMRFinderPlus TSV parser normalizes evidence", () => {
   assert.equal(hits[0].identity, 99.2);
 });
 
+// Regression test: the header above ("Gene symbol", "% ... reference
+// sequence") does not match what a real, pinned AMRFinderPlus 4.2.7 install
+// actually outputs. This is the real header + two real rows from running
+// AMRFinderPlus 4.2.7 on BV-BRC genome 562.56783 (E. coli strain 372-13,
+// independent of this project's training cohort) -- caught identity/
+// coverage silently parsing to null on genuinely real tool output.
+const realAmrFinderHeader = "Protein id\tContig id\tStart\tStop\tStrand\tElement symbol\tElement name\tScope\tType\tSubtype\tClass\tSubclass\tMethod\tTarget length\tReference sequence length\t% Coverage of reference\t% Identity to reference\tAlignment length\tClosest reference accession\tClosest reference name\tHMM accession\tHMM description";
+test("AMRFinderPlus TSV parser handles the real 4.2.7 column names, not just the older sequence-suffixed ones", () => {
+  const realRows = [
+    "NA\t562.56783.con.0029\t47965\t50220\t-\tparC_S80I\tEscherichia quinolone resistant ParC\tcore\tAMR\tPOINT\tQUINOLONE\tQUINOLONE\tPOINTX\t752\t752\t100.00\t99.73\t752\tWP_001281881.1\tDNA topoisomerase IV subunit A ParC\tNA\tNA",
+    "NA\t562.56783.con.0034\t46363\t48987\t+\tgyrA_S83L\tEscherichia quinolone resistant GyrA\tcore\tAMR\tPOINT\tQUINOLONE\tQUINOLONE\tPOINTX\t875\t878\t99.66\t98.97\t875\tWP_001281243.1\tDNA gyrase subunit A GyrA\tNA\tNA",
+  ];
+  const hits = parseAmrFinderTsv(`${realAmrFinderHeader}\n${realRows.join("\n")}`);
+  assert.equal(hits.length, 2);
+  assert.equal(hits[0].gene, "parC_S80I");
+  assert.equal(hits[0].identity, 99.73);
+  assert.equal(hits[0].coverage, 100);
+  assert.equal(hits[1].gene, "gyrA_S83L");
+  assert.equal(hits[1].identity, 98.97);
+  assert.equal(hits[1].coverage, 99.66);
+});
+
 test("known QRDR double-mutation evidence produces a traceable likely-fail call", async () => {
   // Two chromosomal target-site mutations (gyrA + parC), the classic,
   // well-documented mechanism of full clinical fluoroquinolone resistance --
