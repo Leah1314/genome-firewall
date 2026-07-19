@@ -1,22 +1,22 @@
 {
   "schemaVersion": 2,
   "antibiotic": "ciprofloxacin",
-  "trainedAt": "2026-07-18T22:51:01.731Z",
+  "trainedAt": "2026-07-19T06:36:50.941Z",
   "featureNames": [
     "marker_count",
     "mutation_count",
     "target_confirmed"
   ],
   "groupedSplit": {
-    "trainGroups": 19,
-    "calibrationGroups": 7,
-    "testGroups": 7
+    "trainGroups": 30,
+    "calibrationGroups": 11,
+    "testGroups": 11
   },
   "model": {
-    "intercept": -2.7119712399380282,
+    "intercept": -3.5656878278361814,
     "weights": {
-      "marker_count": -0.20263862141622527,
-      "mutation_count": 1.9506914635325117,
+      "marker_count": 0.5369199920774618,
+      "mutation_count": 2.2628561161106444,
       "target_confirmed": 0
     }
   },
@@ -26,31 +26,31 @@
     "note": "Thresholds chosen for >=85% precision on the calibration split."
   },
   "validation": {
-    "sampleCount": 24,
-    "calledCount": 20,
-    "noCallRate": 0.167,
-    "calledAccuracy": 1,
-    "balancedAccuracy": 1,
-    "resistantRecall": 1,
-    "susceptibleRecall": 1,
-    "f1Resistant": 1,
-    "auRoc": 0.977,
-    "prAuc": 0.966,
-    "brierScore": 0.04,
+    "sampleCount": 158,
+    "calledCount": 148,
+    "noCallRate": 0.063,
+    "calledAccuracy": 0.973,
+    "balancedAccuracy": 0.958,
+    "resistantRecall": 0.983,
+    "susceptibleRecall": 0.933,
+    "f1Resistant": 0.983,
+    "auRoc": 0.987,
+    "prAuc": 0.996,
+    "brierScore": 0.029,
     "reliabilityBins": [
       {
         "rangeLow": 0,
         "rangeHigh": 0.2,
-        "count": 13,
-        "meanPredicted": 0.06,
-        "empiricalRate": 0
+        "count": 30,
+        "meanPredicted": 0.028,
+        "empiricalRate": 0.067
       },
       {
         "rangeLow": 0.2,
         "rangeHigh": 0.4,
-        "count": 4,
-        "meanPredicted": 0.308,
-        "empiricalRate": 0.25
+        "count": 10,
+        "meanPredicted": 0.224,
+        "empiricalRate": 0.2
       },
       {
         "rangeLow": 0.4,
@@ -62,15 +62,15 @@
       {
         "rangeLow": 0.6,
         "rangeHigh": 0.8,
-        "count": 1,
-        "meanPredicted": 0.728,
-        "empiricalRate": 1
+        "count": 4,
+        "meanPredicted": 0.723,
+        "empiricalRate": 0.5
       },
       {
         "rangeLow": 0.8,
         "rangeHigh": 1,
-        "count": 6,
-        "meanPredicted": 0.956,
+        "count": 114,
+        "meanPredicted": 0.989,
         "empiricalRate": 1
       }
     ]

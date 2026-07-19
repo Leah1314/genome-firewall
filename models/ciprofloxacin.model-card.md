@@ -8,22 +8,22 @@ Research-only early warning for antibiotic failure in the explicitly supported s
 
 - Model: L2-regularized logistic regression
 - Split: deterministic group-level train / calibration / test
-- Groups: 19 train, 7 calibration, 7 test
+- Groups: 30 train, 11 calibration, 11 test
 - Calibration: threshold calibration fitted on the calibration split only
 - Abstention thresholds: likely-to-work <= 0.1; likely-to-fail >= 0.67; otherwise no-call
 
 ## Held-out test metrics
 
-- Samples: 24
-- Balanced accuracy: 1
-- Resistant recall: 1
-- Susceptible recall: 1
-- Resistant F1: 1
-- AUROC: 0.977
-- PR-AUC: 0.966
-- Brier score: 0.04
-- No-call rate: 0.167
-- Accuracy among called samples: 1
+- Samples: 158
+- Balanced accuracy: 0.958
+- Resistant recall: 0.983
+- Susceptible recall: 0.933
+- Resistant F1: 0.983
+- AUROC: 0.987
+- PR-AUC: 0.996
+- Brier score: 0.029
+- No-call rate: 0.063
+- Accuracy among called samples: 0.973
 
 ## Limitations
 

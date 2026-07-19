@@ -65,9 +65,10 @@ change over time.
   the `genome_sequence` REST collection, which serves the identical
   per-contig sequences as the FTP `.fna` files, one contig record at a
   time, and rebuilt into standard 70-column FASTA.
-- **Result**: 102 genomes selected at `--target-per-class 25`
-  (`--pool-multiplier 6`). Exact selection, per-genome quality metadata,
-  and every laboratory AST label are pinned in `cohort_manifest.json`.
+- **Result**: 414 genomes selected at `--target-per-class 100`
+  (`--pool-multiplier 5`, the default). Exact selection, per-genome quality
+  metadata, and every laboratory AST label are pinned in
+  `cohort_manifest.json`.
 
 ## 2. AMR gene/mutation calling: AMRFinderPlus
 
@@ -108,7 +109,7 @@ training and test. `build_groups.py`:
    guessed -- and the first threshold tried (0.02) is a useful cautionary
    tale worth keeping in this document. Single-linkage clustering chains
    transitively (A-B and B-C merge even if A-C is far apart), so at 0.02
-   the 102-genome cohort collapsed into just **5** clusters (sizes
+   the initial 102-genome cohort collapsed into just **5** clusters (sizes
    43/41/10/5/3) -- useless for a grouped split, since one held-out fold
    would just be one mega-cluster. Sweeping the threshold against this
    cohort's own pairwise Mash distances showed the chaining transition:
@@ -123,11 +124,13 @@ training and test. `build_groups.py`:
    | 0.015 | 14 | 43 |
    | 0.02  | 5  | 43 |
 
-   0.01 is the largest threshold before chaining accelerates sharply (14 vs
-   35 groups going from 0.015 to 0.01), giving 35 groups with no cluster
-   larger than 25/102 genomes -- distinct enough genetic backgrounds that a
-   held-out fold isn't dominated by one clonal group, while still merging
-   genomes within roughly the same sequence type. Re-run
+   For the initial 102-genome threshold sweep, 0.01 was the largest threshold
+   before chaining accelerated sharply (14 vs. 35 groups going from 0.015 to
+   0.01). The expanded 414-genome cohort realizes **54 groups**, with a
+   largest single-linkage cluster of 112 genomes. The threshold was kept fixed
+   before retraining rather than tuned against held-out performance; the
+   larger cluster and resulting fold imbalance remain limitations to report.
+   Re-run
    `build_groups.py --threshold <value>` and inspect the printed
    percentiles/group-size distribution before trusting a different value on
    a different or larger cohort -- the right threshold is a property of the
@@ -197,7 +200,7 @@ conda create -n amrfinder -c conda-forge -c bioconda ncbi-amrfinderplus
 conda create -n bioutils -c conda-forge -c bioconda mash
 conda run -n amrfinder amrfinder -u
 
-python3 data/scripts/fetch_bvbrc_cohort.py --target-per-class 25 --pool-multiplier 6
+python3 data/scripts/fetch_bvbrc_cohort.py --target-per-class 100
 bash data/scripts/run_amrfinder_batch.sh
 conda run -n bioutils python3 data/scripts/build_groups.py --threshold 0.01
 node data/scripts/build_features.js
@@ -210,24 +213,25 @@ node scripts/train-baseline.js data/features.csv gentamicin
 
 | Antibiotic | train/calib/test groups | test n (called) | no-call rate | balanced acc. | resistant recall | susceptible recall | F1 | AUROC | PR-AUC | Brier |
 |---|---|---|---|---|---|---|---|---|---|---|
-| ciprofloxacin | 19/7/7 | 24 (20) | 0.167 | 1.00 | 1.00 | 1.00 | 1.00 | 0.977 | 0.966 | 0.040 |
-| ceftriaxone | 13/5/5 | 17 (17) | 0.000 | 0.955 | 0.909 | 1.00 | 0.952 | 0.955 | 0.976 | 0.065 |
-| gentamicin | 20/7/7 | 23 (23) | 0.000 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.032 |
+| ciprofloxacin | 30/11/11 | 158 (148) | 0.063 | 0.958 | 0.983 | 0.933 | 0.983 | 0.987 | 0.996 | 0.029 |
+| ceftriaxone | 24/8/9 | 71 (71) | 0.000 | 0.972 | 0.945 | 1.000 | 0.972 | 0.973 | 0.991 | 0.068 |
+| gentamicin | 32/11/11 | 151 (151) | 0.000 | 0.903 | 0.964 | 0.842 | 0.864 | 0.947 | 0.922 | 0.078 |
 
 Regenerate with `node scripts/train-baseline.js data/features.csv <antibiotic>`; full artifacts (thresholds, per-bin reliability, feature weights) are in `models/<antibiotic>.json`.
 
-**Read these numbers skeptically, not as a headline.** Held-out test sets here are 17-24 rows across only 5-7 genetic groups -- some class recalls are computed on double-digit or even single-digit counts, so a single misclassified genome swings the number by several points, and a perfect 1.00 does not mean the model is perfect, it means the test set was small and (for ciprofloxacin/gentamicin) fully separable by the features available. AMR-gene-based logistic regression genuinely does score very high on well-characterized *E. coli* + these three drugs in the published literature, which is consistent with what happened here, but this cohort is not large enough to certify that number -- see "Known limits" below and the brief's own note: *"published baseline models perform strongly for some well-documented bacteria and antibiotics, but results depend on label quality, class balance, genetic similarity between samples, and how the data is split."*
+**Read these numbers skeptically, not as a headline.** Held-out test sets are now 71-158 rows across 9-11 genetic groups, which is substantially more informative than the initial 17-24-row evaluation but still an internal grouped split rather than an external validation cohort. The 54 Mash groups are also uneven (the largest contains 112 genomes), so lineage composition can still move these metrics. AMR-gene-based logistic regression genuinely does score very high on well-characterized *E. coli* + these three drugs in the published literature, which is consistent with what happened here, but this cohort is not large enough to certify clinical performance -- see "Known limits" below and the brief's own note: *"published baseline models perform strongly for some well-documented bacteria and antibiotics, but results depend on label quality, class balance, genetic similarity between samples, and how the data is split."*
 
-**A genuine, honest finding worth flagging rather than hiding:** the trained ciprofloxacin model's `marker_count` (acquired plasmid-mediated genes, e.g. `qnrS1`) weight came out slightly *negative* (-0.20), while `mutation_count` (chromosomal QRDR target-site mutations, e.g. `gyrA`/`parC`/`parE`) came out strongly positive (+1.95). A genome with a single isolated `qnrS1` hit and no QRDR mutation is therefore predicted `likely_to_work` / no-call, not `likely_to_fail`, by the calibrated model (see `test/pipeline.test.js`, "single plasmid-mediated marker alone does not force an overconfident fail call"). This is plausibly real biology -- isolated PMQR (plasmid-mediated quinolone resistance) genes are well documented in the literature to often sit below the clinical resistance breakpoint on their own, unlike QRDR mutations, which are the classic driver of full clinical fluoroquinolone resistance -- but with only 104 ciprofloxacin rows it is also exactly the kind of coefficient a larger cohort could revise. Do not present this sign as settled biology in the demo; present it as what the calibrated model currently does, and why the number is small.
+**A genuine, honest finding worth flagging rather than hiding:** expanding the cohort revised the ciprofloxacin `marker_count` coefficient from the initial model's slight negative value (-0.20) to a positive value (+0.54); `mutation_count` remains more strongly positive (+2.26). That is exactly why the earlier coefficient was documented as provisional rather than presented as settled biology. The current artifact reports what this cohort learned, while the held-out metrics and evidence gate -- not a biological story attached to one fitted coefficient -- should carry the demo claim.
 
 ## Known limits of this cohort (state them, don't hide them)
 
-- 102 genomes / ~25 genomes per class-bucket is far below the brief's
+- 414 genomes / ~100 genomes per class-bucket is still below the brief's
   organizer-recommended 1,000-3,000 genome scale. It is enough to prove
   the full real-data path end-to-end (download -> QC -> AMRFinderPlus ->
   grouping -> calibrated training -> honest held-out evaluation) but not
-  enough for the resulting per-drug metrics to be a confident estimate of
-  real-world performance. Re-running with a larger `--target-per-class`
+  enough to make the held-out evaluation materially more credible, but not
+  enough for the resulting per-drug metrics to establish real-world
+  performance. Re-running with a larger `--target-per-class`
   is the direct way to scale this up; the bottleneck is AMRFinderPlus
   wall-clock time on a 2-core host (~25-35s/genome), not the data
   availability -- BV-BRC has 15,000+ E. coli genomes with laboratory AMR

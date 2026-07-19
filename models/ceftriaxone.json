@@ -1,49 +1,49 @@
 {
   "schemaVersion": 2,
   "antibiotic": "ceftriaxone",
-  "trainedAt": "2026-07-18T22:51:01.773Z",
+  "trainedAt": "2026-07-19T06:36:50.850Z",
   "featureNames": [
     "marker_count",
     "mutation_count",
     "target_confirmed"
   ],
   "groupedSplit": {
-    "trainGroups": 13,
-    "calibrationGroups": 5,
-    "testGroups": 5
+    "trainGroups": 24,
+    "calibrationGroups": 8,
+    "testGroups": 9
   },
   "model": {
-    "intercept": -2.495109230769684,
+    "intercept": -2.123823578843999,
     "weights": {
-      "marker_count": 4.269766286839872,
+      "marker_count": 3.427539807328283,
       "mutation_count": 0,
       "target_confirmed": 0
     }
   },
   "thresholds": {
-    "highThreshold": 0.67,
-    "lowThreshold": 0.33,
+    "highThreshold": 0.5,
+    "lowThreshold": 0.15,
     "note": "Thresholds chosen for >=85% precision on the calibration split."
   },
   "validation": {
-    "sampleCount": 17,
-    "calledCount": 17,
+    "sampleCount": 71,
+    "calledCount": 71,
     "noCallRate": 0,
-    "calledAccuracy": 0.941,
-    "balancedAccuracy": 0.955,
-    "resistantRecall": 0.909,
+    "calledAccuracy": 0.958,
+    "balancedAccuracy": 0.972,
+    "resistantRecall": 0.945,
     "susceptibleRecall": 1,
-    "f1Resistant": 0.952,
-    "auRoc": 0.955,
-    "prAuc": 0.976,
-    "brierScore": 0.065,
+    "f1Resistant": 0.972,
+    "auRoc": 0.973,
+    "prAuc": 0.991,
+    "brierScore": 0.068,
     "reliabilityBins": [
       {
         "rangeLow": 0,
         "rangeHigh": 0.2,
-        "count": 7,
-        "meanPredicted": 0.076,
-        "empiricalRate": 0.143
+        "count": 19,
+        "meanPredicted": 0.107,
+        "empiricalRate": 0.158
       },
       {
         "rangeLow": 0.2,
@@ -62,15 +62,15 @@
       {
         "rangeLow": 0.6,
         "rangeHigh": 0.8,
-        "count": 0,
-        "meanPredicted": null,
-        "empiricalRate": null
+        "count": 49,
+        "meanPredicted": 0.786,
+        "empiricalRate": 1
       },
       {
         "rangeLow": 0.8,
         "rangeHigh": 1,
-        "count": 10,
-        "meanPredicted": 0.855,
+        "count": 3,
+        "meanPredicted": 0.994,
         "empiricalRate": 1
       }
     ]
