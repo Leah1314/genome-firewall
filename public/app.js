@@ -187,6 +187,61 @@ reportAgentButton.addEventListener("click", async () => {
   }
 });
 
+// Reliability (calibration) plot: mean predicted probability vs. empirical
+// resistant rate per bin, against a dashed y=x reference (perfect
+// calibration). The brief's Success Criteria names this explicitly
+// ("Brier score and a reliability plot") -- the bins were already computed
+// by scripts/train-baseline.js and shipped via /api/model-info, just never
+// drawn. Empty bins (count 0) are skipped. A plain-text readout underneath
+// keeps every value reachable without hovering.
+function reliabilityChartSvg(bins, antibioticId) {
+  const width = 220;
+  const height = 168;
+  const padding = { top: 10, right: 10, bottom: 22, left: 26 };
+  const plotWidth = width - padding.left - padding.right;
+  const plotHeight = height - padding.top - padding.bottom;
+  const toX = (value) => padding.left + value * plotWidth;
+  const toY = (value) => padding.top + (1 - value) * plotHeight;
+
+  const points = bins.filter((bin) => bin.count > 0);
+  if (!points.length) return "";
+
+  const linePath = points
+    .map((bin, index) => `${index === 0 ? "M" : "L"} ${toX(bin.meanPredicted).toFixed(1)} ${toY(bin.empiricalRate).toFixed(1)}`)
+    .join(" ");
+
+  const dots = points.map((bin) => {
+    const cx = toX(bin.meanPredicted).toFixed(1);
+    const cy = toY(bin.empiricalRate).toFixed(1);
+    const title = `${Math.round(bin.rangeLow * 100)}–${Math.round(bin.rangeHigh * 100)}% predicted bin: mean predicted ${Math.round(bin.meanPredicted * 100)}%, actual resistant rate ${Math.round(bin.empiricalRate * 100)}% (n=${bin.count})`;
+    return `
+      <circle class="reliability-hit" cx="${cx}" cy="${cy}" r="12"><title>${escapeHtml(title)}</title></circle>
+      <circle class="reliability-dot" cx="${cx}" cy="${cy}" r="4.5"><title>${escapeHtml(title)}</title></circle>`;
+  }).join("");
+
+  return `
+    <figure class="reliability-chart-figure">
+      <svg class="reliability-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Reliability plot for ${escapeHtml(antibioticId)}: predicted probability versus actual resistant rate">
+        <line class="reliability-diagonal" x1="${toX(0)}" y1="${toY(0)}" x2="${toX(1)}" y2="${toY(1)}" />
+        <line class="reliability-axis" x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${height - padding.bottom}" />
+        <line class="reliability-axis" x1="${padding.left}" y1="${height - padding.bottom}" x2="${width - padding.right}" y2="${height - padding.bottom}" />
+        <path class="reliability-line" d="${linePath}" fill="none" />
+        ${dots}
+        <text class="reliability-tick" x="${padding.left}" y="${height - padding.bottom + 13}">0%</text>
+        <text class="reliability-tick" x="${width - padding.right}" y="${height - padding.bottom + 13}" text-anchor="end">100%</text>
+        <text class="reliability-tick reliability-axis-label" x="${padding.left + plotWidth / 2}" y="${height - 2}" text-anchor="middle">Predicted</text>
+        <text class="reliability-tick reliability-axis-label" x="-${padding.top + plotHeight / 2}" y="10" text-anchor="middle" transform="rotate(-90)">Actual</text>
+      </svg>
+      <figcaption>
+        <span class="reliability-key reliability-key-line">Model</span>
+        <span class="reliability-key reliability-key-diagonal">Perfect calibration</span>
+      </figcaption>
+      <ul class="reliability-table">
+        ${points.map((bin) => `<li><span>${Math.round(bin.rangeLow * 100)}–${Math.round(bin.rangeHigh * 100)}% predicted</span><span>${Math.round(bin.empiricalRate * 100)}% actual (n=${bin.count})</span></li>`).join("")}
+      </ul>
+    </figure>`;
+}
+
 function renderModelInfo(info) {
   const antibioticLabels = Object.fromEntries(info.coverage.antibiotics.map((a) => [a.id, a.label]));
   document.querySelector("#coverage-statement").textContent =
@@ -224,6 +279,7 @@ function renderModelInfo(info) {
             <div><span>${escapeHtml(metricLabel)}</span><strong>${value === null || value === undefined ? "—" : value}</strong></div>
           `).join("")}
         </div>
+        ${v.reliabilityBins ? reliabilityChartSvg(v.reliabilityBins, model.antibioticId) : ""}
         <p class="model-note">Metrics computed on the held-out test groups only — never used for training or threshold calibration. Trained ${new Date(model.trainedAt).toLocaleString()}.</p>
       </article>`;
   }).join("");

@@ -112,6 +112,23 @@ h1 { max-width: 760px; margin: 0; font-size: clamp(46px, 6vw, 84px); line-height
 .model-metric-grid span { color: var(--muted); font-size: 11px; }
 .model-metric-grid strong { font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .model-note { margin: 16px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.reliability-chart-figure { margin: 16px 0 0; padding-top: 16px; border-top: 1px solid var(--line); }
+.reliability-chart { display: block; width: 100%; max-width: 220px; height: auto; margin: 0 auto; }
+.reliability-axis { stroke: var(--line); stroke-width: 1; }
+.reliability-diagonal { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.reliability-line { stroke: var(--green); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.reliability-dot { fill: var(--green); stroke: var(--surface); stroke-width: 2; }
+.reliability-hit { fill: transparent; cursor: default; }
+.reliability-tick { fill: var(--muted); font-size: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.reliability-axis-label { font-family: inherit; letter-spacing: 0.02em; }
+.reliability-chart-figure figcaption { display: flex; justify-content: center; gap: 14px; margin-top: 4px; font-size: 10px; color: var(--muted); }
+.reliability-key { position: relative; padding-left: 16px; }
+.reliability-key::before { content: ""; position: absolute; left: 0; top: 50%; width: 12px; height: 2px; transform: translateY(-50%); }
+.reliability-key-line::before { background: var(--green); }
+.reliability-key-diagonal::before { background: repeating-linear-gradient(90deg, var(--muted) 0 3px, transparent 3px 6px); }
+.reliability-table { display: grid; gap: 3px; margin: 10px 0 0; padding: 0; list-style: none; }
+.reliability-table li { display: flex; justify-content: space-between; gap: 8px; font-size: 10px; color: var(--muted); }
+.reliability-table li span:last-child { color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .evidence-category { margin-top: 8px; color: var(--green-dark); font-size: 11px; font-weight: 700; }
 .evidence-image-block { margin-top: 10px; }
 .evidence-image-block .text-button { padding: 0; font-size: 11px; }
