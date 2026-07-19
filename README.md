@@ -85,6 +85,16 @@ The script performs a 3-way grouped split (train / calibration / held-out test, 
 
 Current realized results (102-genome cohort, see "Realized results" in [data/README.md](./data/README.md) for the full table and — importantly — why these small-test-set numbers should be read skeptically rather than as a headline): balanced accuracy 0.955-1.00, AUROC 0.955-1.00 across the three antibiotics, on held-out test folds of only 17-24 genomes each.
 
+## The brief's Responsibility Requirement
+
+The challenge brief asks five specific things and says to "show these on the held-out data in your demo and explain how you addressed each." Here is that mapping, each shown live on the same held-out genomes the "Every held-out test case, drug by drug" panel displays:
+
+- **Defensive by construction.** The app only predicts and explains resistance that already exists; nothing in the pipeline generates, modifies, or optimizes a sequence. `src/openai-image.js`'s prompt explicitly forbids photorealistic or organism-modification imagery, and every report carries the same policy line (`src/auditor.js`: "Defensive prediction only. No organism design, treatment selection, or autonomous clinical action.").
+- **Honest generalization.** `scripts/train-baseline.js` splits by Mash-derived genetic-relatedness groups (`data/scripts/build_groups.py`), never by row, and reports metrics only on the held-out test groups -- visible live via `GET /api/model-info` and, per-genome, the held-out-cases panel. `GET /api/model-info`'s `coverage` field states plainly which species and antibiotics are covered ("Every other organism and drug is out of scope and must return no-call or be rejected upstream").
+- **Calibrated confidence and a no-call option.** `calibrateThresholds()` in `scripts/train-baseline.js` fits the likely-to-fail/likely-to-work thresholds on a held-out calibration split (target >=85% precision) and reports a 5-bin reliability table, Brier score, and no-call rate per model. The held-out-cases panel shows this isn't theoretical: real no-call rows appear alongside called ones, and the panel doesn't hide the cases the calibrated model got wrong.
+- **Honest explanations.** `evidenceCategory()` (`src/predictor.js`) tags every call as `known_gene_or_mutation`, `statistical_association_only`, or `no_known_signal` -- a `likely_to_fail` call is structurally impossible today without a curated AMRFinderPlus hit backing it, so a bare statistical association is never presented as a confirmed biological cause.
+- **Human oversight.** Every report -- UI, Gradio, `/api/demo`, `/api/analyze` -- carries the same disclaimer verbatim: "Research prototype only. Confirm every result with standard antimicrobial susceptibility testing and qualified clinical review." The optional Report Agent is explicitly instructed never to recommend a drug, dosage, or treatment decision, and cannot alter the classifier's output (`src/openai-report.js`).
+
 ## Honest current limits
 
 - The real-data cohort behind the current `models/*.json` is a 102-genome, ~25-per-class-bucket BV-BRC sample (see "Known limits of this cohort" in [data/README.md](./data/README.md)) -- enough to exercise the full pipeline honestly, not enough to claim confident real-world performance. No coefficients are presented as clinically validated.
