@@ -141,6 +141,13 @@ h1 { max-width: 760px; margin: 0; font-size: clamp(46px, 6vw, 84px); line-height
 .held-out-card { padding: 22px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
 .held-out-card > strong { display: block; margin-bottom: 14px; font-size: 15px; }
 .held-out-card-empty { color: var(--muted); }
+.held-out-card > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; list-style: none; }
+.held-out-card > summary::-webkit-details-marker { display: none; }
+.held-out-card > summary::before { content: "▸"; display: inline-block; margin-right: 10px; color: var(--muted); transition: transform 0.15s ease; }
+.held-out-card[open] > summary::before { transform: rotate(90deg); }
+.held-out-card > summary strong { font-size: 15px; }
+.held-out-card-summary { color: var(--muted); font-size: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.held-out-card .held-out-case-list { margin-top: 16px; }
 .held-out-case-list { display: grid; gap: 10px; }
 .held-out-case-row { display: grid; grid-template-columns: minmax(160px, 1fr) auto minmax(120px, auto) minmax(120px, auto); gap: 14px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); font-size: 12px; }
 .held-out-case-row:first-child { border-top: 0; }

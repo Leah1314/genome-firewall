@@ -309,11 +309,17 @@ function renderHeldOutCases(payload) {
           <span class="held-out-correctness held-out-correctness-${correctness}">${correctnessLabel}</span>
         </div>`;
     }).join("");
+    const noCallCount = antibiotic.cases.filter((item) => item.correct === null).length;
+    const missedCount = antibiotic.cases.filter((item) => item.correct === false).length;
+    const summary = `${antibiotic.cases.length} cases · ${noCallCount} no-call · ${missedCount} missed`;
     return `
-      <article class="held-out-card">
-        <strong>${escapeHtml(antibiotic.antibioticLabel)}</strong>
+      <details class="held-out-card">
+        <summary>
+          <strong>${escapeHtml(antibiotic.antibioticLabel)}</strong>
+          <span class="held-out-card-summary">${escapeHtml(summary)}</span>
+        </summary>
         <div class="held-out-case-list">${rows}</div>
-      </article>`;
+      </details>`;
   }).join("");
 }
 
