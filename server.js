@@ -9,6 +9,11 @@ const { ANTIBIOTICS, SUPPORTED_SPECIES } = require("./src/config");
 const { heldOutCases } = require("./src/demo-cases");
 
 const PORT = Number(process.env.PORT || 4180);
+// 0.0.0.0 so a cloud host's reverse proxy (Railway, etc.) can reach this
+// container -- binding to 127.0.0.1 only accepts connections that
+// originate inside the same network namespace, which the proxy is not.
+// Override with HOST=127.0.0.1 to restrict to local-machine-only access.
+const HOST = process.env.HOST || "0.0.0.0";
 const PUBLIC_DIR = path.join(__dirname, "public");
 const MAX_BODY_BYTES = 16 * 1024 * 1024;
 
@@ -165,6 +170,7 @@ const server = http.createServer(async (request, response) => {
   }
 });
 
-server.listen(PORT, "127.0.0.1", () => {
-  console.log(`Genome Firewall running at http://127.0.0.1:${PORT}`);
+server.listen(PORT, HOST, () => {
+  const displayHost = HOST === "0.0.0.0" ? "127.0.0.1" : HOST;
+  console.log(`Genome Firewall running at http://${displayHost}:${PORT}`);
 });
