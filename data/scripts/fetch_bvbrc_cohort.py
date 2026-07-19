@@ -262,6 +262,10 @@ def download_genomes(manifest, limit=None):
         out_path = GENOME_DIR / f"{gid}.fna"
         record = manifest["genomes"][gid]
         if out_path.exists():
+            fasta_bytes = out_path.read_bytes()
+            record["fastaPath"] = str(out_path.relative_to(ROOT))
+            record["fastaSha256"] = hashlib.sha256(fasta_bytes).hexdigest()
+            record["fastaBytes"] = len(fasta_bytes)
             print(f"[{index}/{len(genome_ids)}] {gid} already downloaded, skipping")
             continue
         print(f"[{index}/{len(genome_ids)}] downloading {gid} ({record.get('genome_name', '')}) ...")

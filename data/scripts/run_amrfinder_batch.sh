@@ -18,8 +18,20 @@ GENOME_DIR="$ROOT_DIR/data/raw/genomes"
 OUT_DIR="$ROOT_DIR/data/raw/amrfinder"
 mkdir -p "$OUT_DIR"
 
-source /opt/conda/etc/profile.d/conda.sh
-conda activate amrfinder
+if command -v amrfinder >/dev/null 2>&1; then
+  AMRFINDER_COMMAND=(amrfinder)
+elif command -v micromamba >/dev/null 2>&1; then
+  AMRFINDER_COMMAND=(micromamba run -n "${AMRFINDER_ENV:-genome-firewall-amr}" amrfinder)
+elif [ -x /opt/homebrew/bin/micromamba ]; then
+  AMRFINDER_COMMAND=(/opt/homebrew/bin/micromamba run -n "${AMRFINDER_ENV:-genome-firewall-amr}" amrfinder)
+elif [ -f /opt/conda/etc/profile.d/conda.sh ]; then
+  source /opt/conda/etc/profile.d/conda.sh
+  conda activate "${AMRFINDER_ENV:-amrfinder}"
+  AMRFINDER_COMMAND=(amrfinder)
+else
+  echo "AMRFinderPlus is not available. Activate its environment first." >&2
+  exit 1
+fi
 
 shopt -s nullglob
 files=("$GENOME_DIR"/*.fna)
@@ -34,14 +46,17 @@ for fasta in "${files[@]}"; do
   count=$((count + 1))
   genome_id="$(basename "$fasta" .fna)"
   out_tsv="$OUT_DIR/$genome_id.tsv"
+  out_tmp="$out_tsv.tmp"
   if [ -s "$out_tsv" ]; then
     echo "[$count/$total] $genome_id already scanned, skipping"
     continue
   fi
   echo "[$count/$total] running AMRFinderPlus on $genome_id ..."
-  if ! amrfinder -n "$fasta" -O "$ORGANISM" -o "$out_tsv" >>"$OUT_DIR/amrfinder_batch.log" 2>&1; then
+  if "${AMRFINDER_COMMAND[@]}" -n "$fasta" -O "$ORGANISM" -o "$out_tmp" >>"$OUT_DIR/amrfinder_batch.log" 2>&1; then
+    mv "$out_tmp" "$out_tsv"
+  else
     echo "  WARNING: AMRFinderPlus failed on $genome_id (see $OUT_DIR/amrfinder_batch.log)" >&2
-    rm -f "$out_tsv"
+    rm -f "$out_tmp"
   fi
 done
 
