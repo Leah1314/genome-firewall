@@ -228,10 +228,11 @@ Regenerate with `node scripts/train-baseline.js data/features.csv <antibiotic>`;
 - 414 genomes / ~100 genomes per class-bucket is still below the brief's
   organizer-recommended 1,000-3,000 genome scale. It is enough to prove
   the full real-data path end-to-end (download -> QC -> AMRFinderPlus ->
-  grouping -> calibrated training -> honest held-out evaluation) but not
-  enough to make the held-out evaluation materially more credible, but not
-  enough for the resulting per-drug metrics to establish real-world
-  performance. Re-running with a larger `--target-per-class`
+  grouping -> calibrated training -> honest held-out evaluation), and the
+  larger held-out folds here (71-158 rows vs. the initial 17-24) are
+  meaningfully more informative, but still not enough for the resulting
+  per-drug metrics to establish real-world performance. Re-running with a
+  larger `--target-per-class`
   is the direct way to scale this up; the bottleneck is AMRFinderPlus
   wall-clock time on a 2-core host (~25-35s/genome), not the data
   availability -- BV-BRC has 15,000+ E. coli genomes with laboratory AMR
